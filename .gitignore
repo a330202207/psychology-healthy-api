@@ -16,5 +16,5 @@ cbuild
 .test/
 main
 output/
-manifest/output/
+manifest/
 temp/

@@ -1,11 +1,16 @@
-server:
-  address:     ":8000"
-  openapiPath: "/api.json"
-  swaggerPath: "/swagger"
+# 工具相关配置
+gfcli:
+  # 工具编译配置
+  build:
+    name: "psychology_healthy"
+    version: "1.0.0"
+    arch: "amd64"
+    system: "linux"
+    paht: "./bin/prod"
 
-logger:
-  level : "all"
-  stdout: true
-
-
-
+  # dao生成
+  gen:
+    dao:
+      - link: "mysql:root:root@tcp(127.0.0.1:3306)/psychology_healthy"
+        descriptionTag: true
+        noModelComment: true
