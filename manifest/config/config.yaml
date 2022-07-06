@@ -1,16 +1,12 @@
-# 工具相关配置
-gfcli:
-  # 工具编译配置
-  build:
-    name: "psychology_healthy"
-    version: "1.0.0"
-    arch: "amd64"
-    system: "linux"
-    paht: "./bin/prod"
 
-  # dao生成
-  gen:
-    dao:
-      - link: "mysql:root:root@tcp(127.0.0.1:3306)/psychology_healthy"
-        descriptionTag: true
-        noModelComment: true
+app:
+  env: "local"
+  environment: "local"
+  version: "1.0.0"
+  datacenterID: 1
+  workerID: 1
+  jaegerEndpoint: ""
+  uploadPath: ""
+  visitPath: ""
+  site: "http://127.0.0.1:8012/"
+  roleModel: ""
