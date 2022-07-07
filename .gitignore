@@ -18,4 +18,6 @@ main
 output/
 manifest/
 temp/
-hack/
+hack/*.yaml
+manifest/config/*.yaml
+manifest/logs/
