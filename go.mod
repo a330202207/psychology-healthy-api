@@ -1,4 +1,4 @@
-module psychology-healthy-api
+module github.com/a330202207/psychology-healthy-api
 
 go 1.16
 
