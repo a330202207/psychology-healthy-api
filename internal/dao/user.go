@@ -5,7 +5,7 @@
 package dao
 
 import (
-	"psychology-healthy-api/internal/dao/internal"
+	"github.com/a330202207/psychology-healthy-api/internal/dao/internal"
 )
 
 // internalUserDao is internal type for wrapping internal DAO implements.

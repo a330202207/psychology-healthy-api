@@ -21,17 +21,20 @@ func Auth() *sAuth {
 }
 
 // Authorization .
-func (s *sAuth) Authorization(ctx context.Context, req *v1.AuthReq) {
+func (s *sAuth) Authorization(ctx context.Context, req *v1.AuthReq) (res *v1.AuthRes, err error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-api-admin-auth-auth")
 	defer span.End()
 
-	service.Auth().Authorization(ctx, &model.AuthInput{
+	out, err := service.Auth().Authorization(ctx, &model.AuthInput{
 		Account:    req.Account,
 		Passwd:     req.Passwd,
 		AuthType:   req.AuthType,
 		VerifyCode: req.VerifyCode,
 		VerifyKey:  req.VerifyKey,
 	})
-
+	if err != nil {
+		return nil, err
+	}
+	res = &v1.AuthRes{Token: out.Token}
 	return
 }
