@@ -11,9 +11,11 @@ import (
 	"context"
 	"errors"
 
+	"github.com/gogf/gf/v2/container/gvar"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/gtrace"
 	"github.com/gogf/gf/v2/os/gtime"
+	"github.com/gogf/gf/v2/util/gconv"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/a330202207/psychology-healthy-api/internal/dao"
@@ -36,21 +38,55 @@ func New() *sAuth {
 }
 
 // Authorization .
-func (s *sAuth) Authorization(ctx context.Context, in *model.AuthInput) (out *model.AuthOutput, err error) {
+func (s *sAuth) Authorization(ctx context.Context, in *model.AuthInput) (*model.AuthOutput, error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-api-admin-logic-auth-Authorization")
 	defer span.End()
-	if in.AuthType == "code" {
 
+	var (
+		logger = gconv.String(ctx.Value("logger"))
+		out    *model.AuthOutput
+		err    error
+	)
+
+	if in.AuthType == "code" {
+		if err = s.getAuthCode(ctx, in, logger); err != nil {
+			return nil, err
+		}
 	}
 
 	token := helper.Helper().InitRandStr(128)
+	if err = s.checkAdminPasswd(ctx, in, token, logger); err != nil {
+		return nil, err
+	}
 	out.Token = token
 
-	return
+	return out, err
+}
+
+// getAuthCode 获取登陆短信码
+func (s *sAuth) getAuthCode(ctx context.Context, in *model.AuthInput, logger string) error {
+	var (
+		conn, err = g.Redis(cache.RedisCache().DefaultConnection(ctx)).Conn(ctx)
+		v         *gvar.Var
+	)
+	if err != nil {
+		return err
+	}
+	defer conn.Close(ctx)
+	if v, err = conn.Do(ctx, "GET", cache.RedisCache().AdminLoginCode(ctx)+in.Account); err != nil {
+		g.Log(logger).Error(ctx, "getAuthCode select from Redis authCode error:", err)
+		return errors.New("登陆失败(001)")
+	}
+
+	if v.IsNil() || v.IsEmpty() || v.String() != in.Passwd {
+		g.Log(logger).Error(ctx, "getAuthCode select from Redis authCode neq authPass:", in.Passwd, " value:", v)
+		return errors.New("登陆失败(002)")
+	}
+	return nil
 }
 
 // checkAdminPasswd 检查用户登陆密码
-func (s *sAuth) checkAdminPasswd(ctx context.Context, in model.AuthInput, token, logger string) error {
+func (s *sAuth) checkAdminPasswd(ctx context.Context, in *model.AuthInput, token, logger string) error {
 	var (
 		admin *entity.Admin
 		err   error

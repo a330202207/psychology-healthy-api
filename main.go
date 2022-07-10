@@ -1,11 +1,9 @@
 package main
 
 import (
-	_ "psychology-healthy-api/internal/packed"
-
 	"github.com/gogf/gf/v2/os/gctx"
 
-	"psychology-healthy-api/internal/cmd"
+	"github.com/a330202207/psychology-healthy-api/internal/cmd"
 )
 
 func main() {
