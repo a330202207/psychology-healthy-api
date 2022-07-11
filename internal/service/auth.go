@@ -11,7 +11,7 @@ import (
 )
 
 type IAuth interface {
-	Authorization(ctx context.Context, in *model.AuthInput) (out *model.AuthOutput, err error)
+	Authorization(ctx context.Context, in *model.AuthInput) (*model.AuthOutput, error)
 }
 
 var localAuth IAuth

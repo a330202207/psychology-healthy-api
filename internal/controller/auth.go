@@ -11,17 +11,13 @@ import (
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
 
-type sAuth struct {
-}
+var Auth = cAuth{}
 
-var insAuth = sAuth{}
-
-func Auth() *sAuth {
-	return &insAuth
+type cAuth struct {
 }
 
 // Authorization .
-func (s *sAuth) Authorization(ctx context.Context, req *v1.AuthReq) (res *v1.AuthRes, err error) {
+func (c *cAuth) Authorization(ctx context.Context, req *v1.AuthReq) (res *v1.AuthRes, err error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-api-admin-auth-auth")
 	defer span.End()
 
