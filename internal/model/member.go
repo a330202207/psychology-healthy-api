@@ -7,13 +7,13 @@
 
 package model
 
-// AdminAddInput .
-type AdminAddInput struct {
+// MemberAddInput .
+type MemberAddInput struct {
 	Account string // 登陆用户名
 	Passwd  string // 登陆密码
 	Type    uint   // 账户类型
 	Status  uint   // 状态:10-开启-20关闭
 }
 
-type AdminAddOutput struct {
+type MemberAddOutput struct {
 }

@@ -5,7 +5,7 @@
 // @Date: 2022/7/11 17:28
 // @Package admin
 
-package admin
+package member
 
 import (
 	"context"
@@ -14,17 +14,18 @@ import (
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
 
-type sAdmin struct {
+type sMember struct {
 }
 
 func init() {
-	service.RegisterAuth(New())
+	service.RegisterMember(New())
 }
 
-func New() *sAdmin {
-	return &sAdmin{}
+func New() *sMember {
+	return &sMember{}
 }
 
-func (s *sAdmin) Add(ctx context.Context, in *model.AdminAddInput) (out *model.AdminAddOutput, err error) {
+// Add .
+func (s *sMember) Add(ctx context.Context, in *model.MemberAddInput) (out *model.MemberAddOutput, err error) {
 	return nil, err
 }

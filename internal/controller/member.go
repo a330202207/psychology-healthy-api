@@ -15,13 +15,13 @@ import (
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
 
-var Admin = cAdmin{}
+var Member = cMember{}
 
-type cAdmin struct {
+type cMember struct {
 }
 
-func (c *cAdmin) Add(ctx context.Context, input *v1.AdminAddReq) (res *v1.AdminAddRes, err error) {
-	service.Admin().Add(ctx, &model.AdminAddInput{
+func (c *cMember) Add(ctx context.Context, input *v1.MemberAddReq) (res *v1.MemberAddRes, err error) {
+	service.Member().Add(ctx, &model.MemberAddInput{
 		Account: input.Account,
 		Passwd:  input.Passwd,
 		Type:    input.Type,
