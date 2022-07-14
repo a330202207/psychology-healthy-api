@@ -25,6 +25,7 @@ type AuthReq struct {
 	AuthType   string `v:"required|in:code,account#登陆类型不能为空" json:"authType"`
 	VerifyCode string `v:"required-if|authType,account#验证码不能为空" json:"verifyCode"`
 	VerifyKey  string `v:"required-if|authType,account" json:"verifyKey"`
+	Device     string `json:"device"`
 }
 
 // AuthRes .

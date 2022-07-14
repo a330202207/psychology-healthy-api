@@ -14,6 +14,7 @@ import (
 	"unsafe"
 
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 const (
@@ -65,4 +66,53 @@ func (u *utilHelper) InitRandStr(n int) string {
 // GetClientIp 获取客户端IP
 func (u *utilHelper) GetClientIp(ctx context.Context) string {
 	return g.RequestFromCtx(ctx).GetClientIp()
+}
+
+// IsExists 判断字符或切片字符是否存在指定字符
+func (u *utilHelper) IsExists(elems interface{}, search string) bool {
+	switch elems.(type) {
+	case []string:
+		elem := gconv.Strings(elems)
+		for i := 0; i < len(elem); i++ {
+			if gconv.String(elem[i]) == search {
+				return true
+			}
+		}
+	default:
+		return gconv.String(elems) == search
+	}
+
+	return false
+}
+
+// IsExceptAuth 是否不需要验证权限的路由地址
+func (u *utilHelper) IsExceptAuth(ctx context.Context, path string) bool {
+	var pathList []string
+
+	except, _ := g.Cfg().Get(ctx, "router.admin.exceptAuth")
+	pathList = except.Strings()
+
+	for i := 0; i < len(pathList); i++ {
+		if u.IsExists(pathList[i], path) {
+			return true
+		}
+	}
+
+	return false
+}
+
+// IsExceptLogin 是否不需要登录的路由地址
+func (u *utilHelper) IsExceptLogin(ctx context.Context, path string) bool {
+	var pathList []string
+
+	except, _ := g.Cfg().Get(ctx, "router.admin.exceptLogin")
+	pathList = except.Strings()
+
+	for i := 0; i < len(pathList); i++ {
+		if u.IsExists(pathList[i], path) {
+			return true
+		}
+	}
+
+	return false
 }

@@ -14,9 +14,13 @@ type AuthInput struct {
 	AuthType   string // 登陆类型
 	VerifyCode string // 验证码
 	VerifyKey  string // 验证码key
+	Device     string // 设备
 }
 
 // AuthOutput .
 type AuthOutput struct {
 	Token string
+}
+
+type TokenInfo struct {
 }

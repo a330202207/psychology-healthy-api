@@ -1,8 +1,6 @@
 package cache
 
 import (
-	"context"
-
 	"github.com/gogf/gf/v2/util/gconv"
 )
 
@@ -21,39 +19,53 @@ const (
 
 	// AdminUserTokenExpire token有效期 刷新有效期
 	AdminUserTokenExpire = 259200
+
+	// JwtToken .
+	JwtToken = "jwtToken:"
+
+	// JwtUserBind 用户身份绑定
+	JwtUserBind = ""
 )
 
-var insRedis = redisUtil{}
+var uRedis = redisUtil{}
 
 type redisUtil struct {
 }
 
 // RedisCache redis cache
 func RedisCache() *redisUtil {
-	return &insRedis
+	return &uRedis
 }
 
 // DefaultConnection 默认
-func (c *redisUtil) DefaultConnection(ctx context.Context) string {
+func (u *redisUtil) DefaultConnection() string {
 	return DefaultConnection
 }
 
 // AdminLoginCode 登陆短信key
-func (c *redisUtil) AdminLoginCode(ctx context.Context) string {
+func (u *redisUtil) AdminLoginCode() string {
 	return AdminLoginCode
 }
 
 // AdminUserTokenArr 后台用户TokenArr
-func (c *redisUtil) AdminUserTokenArr(ctx context.Context) string {
+func (u *redisUtil) AdminUserTokenArr() string {
 	return AdminUserTokenArr
 }
 
 // AdminToken 后台用户Token
-func (c *redisUtil) AdminToken(ctx context.Context, adminNo uint64) string {
+func (u *redisUtil) AdminToken(adminNo int64) string {
 	return AdminToken + gconv.String(adminNo)
 }
 
 // AdminUserTokenExpire .
-func (c *redisUtil) AdminUserTokenExpire(ctx context.Context) uint {
+func (u *redisUtil) AdminUserTokenExpire() uint {
 	return AdminUserTokenExpire
+}
+
+func (u *redisUtil) JwtToken() string {
+	return JwtToken
+}
+
+func (u *redisUtil) JwtUserBind() string {
+	return JwtUserBind
 }
