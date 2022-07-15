@@ -38,8 +38,8 @@ func (s *sMiddleware) Auth(r *ghttp.Request) {
 		jwtSign, _    = g.Cfg().Get(ctx, "jwt.sign", "hotgo")
 	)
 
-	// 替换掉模块前缀
-	routerPrefix, _ := g.Cfg().Get(ctx, "router.admin.prefix", "/admin")
+	// 替换模块前缀
+	routerPrefix, _ := g.Cfg().Get(ctx, "router.admin.prefix", "/api.v1/admin")
 	path := gstr.Replace(r.URL.Path, routerPrefix.String(), "", 1)
 
 	// 不需要验证登陆路由

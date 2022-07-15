@@ -9,7 +9,13 @@ package member
 
 import (
 	"context"
+	"errors"
 
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+
+	"github.com/a330202207/psychology-healthy-api/internal/consts"
+	"github.com/a330202207/psychology-healthy-api/internal/dao"
 	"github.com/a330202207/psychology-healthy-api/internal/model"
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
@@ -25,7 +31,62 @@ func New() *sMember {
 	return &sMember{}
 }
 
-// Add .
-func (s *sMember) Add(ctx context.Context, in *model.MemberAddInput) (out *model.MemberAddOutput, err error) {
-	return nil, err
+// Edit 新增/修改
+func (s *sMember) Edit(ctx context.Context, in *model.MemberInput) (err error) {
+	ok, err := dao.SysMember.IsUniqueName(ctx, in.ID, in.UserName)
+	if err != nil {
+		err = gerror.Wrap(err, consts.ErrorORM)
+		return err
+	}
+
+	if !ok {
+		err = gerror.New("帐号已存在")
+		return err
+	}
+
+	tx, err := g.DB().Begin(ctx)
+	if err != nil {
+		err = errors.New("操作失败")
+		return err
+	}
+
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		} else {
+			_ = tx.Commit()
+		}
+	}()
+
+	if in.ID > 0 {
+		if err = s.save(ctx, in); err != nil {
+			return err
+		}
+	} else {
+		if err = s.add(ctx, in); err != nil {
+			return err
+		}
+	}
+
+	return err
+}
+
+// save 保存管理员
+func (s *sMember) save(ctx context.Context, in *model.MemberInput) (err error) {
+	if _, err = dao.SysMember.Ctx(ctx).Where("id", in.ID).Data(in).Update(); err != nil {
+		err = gerror.Wrap(err, consts.ErrorORM)
+		return
+	}
+
+	// 更新角色
+	if err = service.Rule().UpdateRuleByIds(ctx, in.ID, in.RuleIds); err != nil {
+		return
+	}
+
+	return
+}
+
+// add 添加管理员
+func (s *sMember) add(ctx context.Context, in *model.MemberInput) (err error) {
+	return
 }

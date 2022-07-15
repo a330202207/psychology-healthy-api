@@ -7,13 +7,26 @@
 
 package model
 
-// MemberAddInput .
-type MemberAddInput struct {
-	Account string // 登陆用户名
-	Passwd  string // 登陆密码
-	Type    uint   // 账户类型
-	Status  uint   // 状态:10-开启-20关闭
+// MemberInput .
+type MemberInput struct {
+	ID         int64
+	RuleIds    []int64 // 角色ID
+	UserName   string  // 登陆用户名
+	Passwd     string  // 登陆密码
+	Salt       string  // 密码盐
+	Type       uint    // 账户类型:1-普通管理员，10-超级管理员"
+	Status     uint    // 状态:10-正常，20-关闭，30-待验证
+	NickName   string  // 昵称
+	Avatar     string  // 头像
+	Sex        uint    // 性别:0-未知，1-男，2-女
+	Email      string  // 邮箱
+	ProvinceID uint    // 省
+	CityID     uint    // 城市
+	AreaID     uint    // 地区
+	Address    string  // 地址
+	Mobile     string  // 手机
+	Birthday   string  // 生日
 }
 
-type MemberAddOutput struct {
+type MemberOutput struct {
 }
