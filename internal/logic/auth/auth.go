@@ -174,6 +174,11 @@ func (s *sAuth) compareHashAndPassword(inputPass, authPass string) bool {
 	return true
 }
 
+// EncryptPass .加密处理
+func (s *sAuth) EncryptPass(pass string) ([]byte, error) {
+	return bcrypt.GenerateFromPassword([]byte(pass), bcrypt.DefaultCost)
+}
+
 // updateLoginInfo 更新登陆信息
 func (s *sAuth) updateLoginInfo(ctx context.Context, authKey string) error {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-service-auth-updateLoginInfo")

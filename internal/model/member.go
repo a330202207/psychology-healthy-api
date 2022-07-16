@@ -13,7 +13,6 @@ type MemberInput struct {
 	RuleIds    []int64 // 角色ID
 	UserName   string  // 登陆用户名
 	Passwd     string  // 登陆密码
-	Salt       string  // 密码盐
 	Type       uint    // 账户类型:1-普通管理员，10-超级管理员"
 	Status     uint    // 状态:10-正常，20-关闭，30-待验证
 	NickName   string  // 昵称

@@ -44,6 +44,13 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberInput) (err error) {
 		return err
 	}
 
+	passWd, err := service.Auth().EncryptPass(in.Passwd)
+	if err != nil {
+		return err
+	}
+
+	in.Passwd = string(passWd)
+
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		err = errors.New("操作失败")
@@ -59,23 +66,17 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberInput) (err error) {
 	}()
 
 	if in.ID > 0 {
-		if err = s.save(ctx, in); err != nil {
-			return err
+		if _, err = dao.SysMember.Ctx(ctx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
+			err = gerror.Wrap(err, consts.ErrorORM)
+			return
 		}
 	} else {
-		if err = s.add(ctx, in); err != nil {
-			return err
+		in.Passwd = string(passWd)
+		in.ID, err = dao.SysMember.Ctx(ctx).InsertAndGetId(in)
+		if err != nil {
+			err = gerror.Wrap(err, consts.ErrorORM)
+			return
 		}
-	}
-
-	return err
-}
-
-// save 保存管理员
-func (s *sMember) save(ctx context.Context, in *model.MemberInput) (err error) {
-	if _, err = dao.SysMember.Ctx(ctx).Where("id", in.ID).Data(in).Update(); err != nil {
-		err = gerror.Wrap(err, consts.ErrorORM)
-		return
 	}
 
 	// 更新角色
@@ -83,10 +84,5 @@ func (s *sMember) save(ctx context.Context, in *model.MemberInput) (err error) {
 		return
 	}
 
-	return
-}
-
-// add 添加管理员
-func (s *sMember) add(ctx context.Context, in *model.MemberInput) (err error) {
-	return
+	return err
 }

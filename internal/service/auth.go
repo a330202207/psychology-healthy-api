@@ -12,6 +12,7 @@ import (
 
 type IAuth interface {
 	Authorization(ctx context.Context, in *model.AuthInput) (*model.AuthOutput, error)
+	EncryptPass(pass string) ([]byte, error)
 }
 
 var localAuth IAuth
