@@ -44,14 +44,30 @@ func (c *cMember) Add(ctx context.Context, input *v1.MemberEditReq) (res *v1.Mem
 	return
 }
 
-// 修改管理员信息
+// UpdatePassWd 修改密码
+func (c *cMember) UpdatePassWd(ctx context.Context, input *v1.MemberUpdatePassWdReq) (res *v1.MemberUpdatePassWdRes, err error) {
 
-// 修改登陆密码
+	return
+}
 
-// 获取管理员信息
+// GetInfo 获取管理员信息
+func (c *cMember) GetInfo(ctx context.Context, input *v1.MemberGetInfoReq) (res *v1.MemberGetInfoRes, err error) {
+	return
+}
 
-// 获取管理员列表
+// List 获取管理员列表
+func (c *cMember) List(ctx context.Context, input *v1.MemberListReq) (res *v1.MemberListRes, err error) {
+	return
+}
 
-// 重置密码
+// ResetPassWd 重置密码
+func (c *cMember) ResetPassWd(ctx context.Context, input *v1.MemberResetPassWdReq) (res *v1.MemberResetPassWdRes, err error) {
 
-// 删除管理员
+	return
+}
+
+// Del 删除管理员
+func (c *cMember) Del(ctx context.Context, input *v1.MemberDelReq) (res *v1.MemberDelRes, err error) {
+
+	return
+}

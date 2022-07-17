@@ -13,6 +13,7 @@ func BindRouter(g *ghttp.RouterGroup) {
 		group.Middleware(service.Middleware().Auth)
 		group.Bind(
 			controller.Auth,
+			controller.Member,
 		)
 	})
 }

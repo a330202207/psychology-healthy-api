@@ -6,14 +6,8 @@ package service
 
 import (
 	"context"
-	"errors"
 
-	"github.com/a330202207/psychology-healthy-api/internal/consts"
-	"github.com/a330202207/psychology-healthy-api/internal/dao"
 	"github.com/a330202207/psychology-healthy-api/internal/model"
-	"github.com/a330202207/psychology-healthy-api/internal/service"
-	"github.com/gogf/gf/v2/errors/gerror"
-	"github.com/gogf/gf/v2/frame/g"
 )
 
 type IMember interface {

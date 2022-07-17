@@ -72,7 +72,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberInput) (err error) {
 		}
 	} else {
 		in.Passwd = string(passWd)
-		in.ID, err = dao.SysMember.Ctx(ctx).InsertAndGetId(in)
+		in.ID, err = dao.SysMember.Ctx(ctx).OmitEmpty().InsertAndGetId(in)
 		if err != nil {
 			err = gerror.Wrap(err, consts.ErrorORM)
 			return

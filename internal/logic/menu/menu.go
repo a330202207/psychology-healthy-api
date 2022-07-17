@@ -8,20 +8,21 @@
 package menu
 
 import (
-	"github.com/a330202207/psychology-healthy-api/internal/service"
+	"context"
 )
 
 type sMenu struct {
 }
 
 func init() {
-	service.RegisterMenu(New())
+	// service.RegisterMenu(New())
 }
 
 func New() *sMenu {
 	return &sMenu{}
 }
 
-func (s *sMenu) Edit() {
+func (s *sMenu) Edit(ctx context.Context) (err error) {
 
+	return
 }
