@@ -51,6 +51,7 @@ type MemberUpdatePassWdRes struct {
 type MemberResetPassWdReq struct {
 	g.Meta     `path:"/admin/resetPassWd" method:"post" tag:"memberService" summary:"重置密码" tags:"重置密码"`
 	Type       uint   `json:"type" dc:"类型:10-手机，20-邮箱"`
+	Account    string `json:"account" dc:"手机(邮箱)"`
 	VerifyCode string `v:"required#验证码不能为空" json:"verifyCode" dc:"验证码"`
 	Passwd     string `v:"required|length:4,20#密码不能为空|密码长度应当在4到20之间" json:"passwd" dc:"密码"`
 }

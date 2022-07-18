@@ -7,8 +7,8 @@
 
 package model
 
-// MemberInput .
-type MemberInput struct {
+// MemberEditInput .
+type MemberEditInput struct {
 	ID         int64
 	RuleIds    []int64 // 角色ID
 	UserName   string  // 登陆用户名
@@ -27,5 +27,21 @@ type MemberInput struct {
 	Birthday   string  // 生日
 }
 
-type MemberOutput struct {
+// MemberUpdatePassWdInput .
+type MemberUpdatePassWdInput struct {
+	ID     int64
+	Passwd string
+}
+
+// MemberBaseInput .
+type MemberBaseInput struct {
+	ID int64
+}
+
+// MemberResetPassWdInut .
+type MemberResetPassWdInut struct {
+	Type       uint
+	Account    string
+	VerifyCode string
+	Passwd     string
 }

@@ -7,9 +7,6 @@ package dao
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/errors/gerror"
-
-	"github.com/a330202207/psychology-healthy-api/internal/consts"
 	"github.com/a330202207/psychology-healthy-api/internal/dao/internal"
 	"github.com/a330202207/psychology-healthy-api/internal/model/entity"
 )
@@ -40,7 +37,6 @@ func (d *sysMemberDao) IsUniqueName(ctx context.Context, id int64, name string) 
 	}
 
 	if err := m.Scan(&data); err != nil {
-		err = gerror.Wrap(err, consts.ErrorORM)
 		return false, err
 	}
 
@@ -61,7 +57,6 @@ func (d *sysMemberDao) IsUniqueMobile(ctx context.Context, id int64, mobile stri
 	}
 
 	if err := m.Scan(&data); err != nil {
-		err = gerror.Wrap(err, consts.ErrorORM)
 		return false, err
 	}
 
@@ -82,7 +77,6 @@ func (d *sysMemberDao) IsUniqueEmail(ctx context.Context, id int64, email string
 	}
 
 	if err := m.Scan(&data); err != nil {
-		err = gerror.Wrap(err, consts.ErrorORM)
 		return false, err
 	}
 
@@ -90,5 +84,18 @@ func (d *sysMemberDao) IsUniqueEmail(ctx context.Context, id int64, email string
 		return true, nil
 	}
 
+	return false, nil
+}
+
+// IsUniqueMember .
+func (d *sysMemberDao) IsUniqueMember(ctx context.Context, id int64) (bool, error) {
+	count, err := d.Ctx(ctx).Where("id", id).Count()
+	if err != nil {
+		return false, err
+	}
+
+	if count > 0 {
+		return true, nil
+	}
 	return false, nil
 }

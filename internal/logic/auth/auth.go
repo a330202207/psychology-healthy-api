@@ -53,7 +53,7 @@ func (s *sAuth) Authorization(ctx context.Context, in *model.AuthInput) (*model.
 	)
 
 	if in.AuthType == "code" {
-		if err = s.getAuthCode(ctx, in); err != nil {
+		if err = s.checkAuthCode(ctx, in); err != nil {
 			g.Log(logger).Error(ctx, "service Authorization getAuthCode error:", err.Error())
 			return nil, err
 		}
@@ -92,22 +92,17 @@ func (s *sAuth) Authorization(ctx context.Context, in *model.AuthInput) (*model.
 	return out, err
 }
 
-// getAuthCode 获取登陆短信码
-func (s *sAuth) getAuthCode(ctx context.Context, in *model.AuthInput) error {
+// checkAuthCode 验证登陆短信码
+func (s *sAuth) checkAuthCode(ctx context.Context, in *model.AuthInput) error {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-service-auth-getAuthCode")
 	defer span.End()
-
-	conn, err := g.Redis(cache.RedisCache().DefaultConnection()).Conn(ctx)
-	if err != nil {
-		return err
-	}
-	defer conn.Close(ctx)
-	v, err := conn.Do(ctx, "GET", cache.RedisCache().AdminLoginCode()+in.Account)
+	conn := cache.RedisCache().DefaultConnection()
+	v, err := g.Redis(conn).Do(ctx, "GET", cache.RedisCache().MemberLoginCode()+in.Account)
 	if err != nil {
 		return errors.New("登陆失败(001)")
 	}
 
-	if v.IsNil() || v.IsEmpty() || v.String() != in.Passwd {
+	if v.IsNil() || v.IsEmpty() || v.String() != in.VerifyCode {
 		return errors.New("登陆失败(002)")
 	}
 	return nil
@@ -193,7 +188,7 @@ func (s *sAuth) updateLoginInfo(ctx context.Context, authKey string) error {
 		"last_at":  gtime.Now(),
 		"last_ip":  helper.Helper().GetClientIp(ctx),
 	}); err != nil {
-		err := gerror.New(err.Error())
+		err = gerror.New(err.Error())
 		return err
 	}
 

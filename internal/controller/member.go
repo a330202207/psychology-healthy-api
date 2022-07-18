@@ -22,7 +22,7 @@ type cMember struct {
 
 // Add 添加管理员
 func (c *cMember) Add(ctx context.Context, input *v1.MemberEditReq) (res *v1.MemberEditRes, err error) {
-	service.Member().Edit(ctx, &model.MemberInput{
+	if err = service.Member().Edit(ctx, &model.MemberEditInput{
 		ID:         input.ID,
 		RuleIds:    input.RuleIds,
 		UserName:   input.UserName,
@@ -39,14 +39,21 @@ func (c *cMember) Add(ctx context.Context, input *v1.MemberEditReq) (res *v1.Mem
 		Address:    input.Address,
 		Mobile:     input.Mobile,
 		Birthday:   input.Birthday,
-	})
+	}); err != nil {
+		return
+	}
 
 	return
 }
 
 // UpdatePassWd 修改密码
 func (c *cMember) UpdatePassWd(ctx context.Context, input *v1.MemberUpdatePassWdReq) (res *v1.MemberUpdatePassWdRes, err error) {
-
+	if err = service.Member().UpdatePassWd(ctx, &model.MemberUpdatePassWdInput{
+		ID:     input.ID,
+		Passwd: input.Passwd,
+	}); err != nil {
+		return
+	}
 	return
 }
 
@@ -68,6 +75,8 @@ func (c *cMember) ResetPassWd(ctx context.Context, input *v1.MemberResetPassWdRe
 
 // Del 删除管理员
 func (c *cMember) Del(ctx context.Context, input *v1.MemberDelReq) (res *v1.MemberDelRes, err error) {
-
+	if err = service.Member().Del(ctx, &model.MemberBaseInput{ID: input.ID}); err != nil {
+		return
+	}
 	return
 }

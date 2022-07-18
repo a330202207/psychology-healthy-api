@@ -11,7 +11,12 @@ import (
 )
 
 type IMember interface {
-	Edit(ctx context.Context, in *model.MemberInput) (err error)
+	Edit(ctx context.Context, in *model.MemberEditInput) (err error)
+	UpdatePassWd(ctx context.Context, in *model.MemberUpdatePassWdInput) (err error)
+	Del(ctx context.Context, in *model.MemberBaseInput) (err error)
+	ResetPassWd(ctx context.Context, in *model.MemberResetPassWdInut) (err error)
+	List(ctx context.Context, in *model.MemberBaseInput) (err error)
+	GetInfo(ctx context.Context, in *model.MemberBaseInput) (err error)
 }
 
 var localMember IMember

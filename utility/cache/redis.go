@@ -8,23 +8,29 @@ const (
 	// DefaultConnection 默认连接
 	DefaultConnection = "default"
 
-	// AdminLoginCode 登陆短信key
-	AdminLoginCode = "admin:login:code:"
+	// MemberLoginCode 登陆短信key
+	MemberLoginCode = "member:login:code:"
 
-	// AdminUserTokenArr 后台用户TokenArr
-	AdminUserTokenArr = "admin:user:token:arr"
+	// MemberUserTokenArr 后台用户TokenArr
+	MemberUserTokenArr = "member:user:token:arr"
 
-	// AdminToken 后台用户Token
-	AdminToken = "admin:user:token:"
+	// MemberToken 后台用户Token
+	MemberToken = "member:user:token:"
 
-	// AdminUserTokenExpire token有效期 刷新有效期
-	AdminUserTokenExpire = 259200
+	// MemberUserTokenExpire token有效期 刷新有效期
+	MemberUserTokenExpire = 259200
 
 	// JwtToken .
 	JwtToken = "jwtToken:"
 
 	// JwtUserBind 用户身份绑定
 	JwtUserBind = ""
+
+	// PhoneResetPassWdCode 手机忘记密码短信Key
+	PhoneResetPassWdCode = "phone:reset:passwd:code:"
+
+	// EmailResetPassWdCode 邮箱忘记密码短信Key
+	EmailResetPassWdCode = "email:reset:passwd:code:"
 )
 
 var uRedis = redisUtil{}
@@ -42,30 +48,42 @@ func (u *redisUtil) DefaultConnection() string {
 	return DefaultConnection
 }
 
-// AdminLoginCode 登陆短信key
-func (u *redisUtil) AdminLoginCode() string {
-	return AdminLoginCode
+// MemberLoginCode 登陆短信key
+func (u *redisUtil) MemberLoginCode() string {
+	return MemberLoginCode
 }
 
-// AdminUserTokenArr 后台用户TokenArr
-func (u *redisUtil) AdminUserTokenArr() string {
-	return AdminUserTokenArr
+// MemberUserTokenArr 后台用户TokenArr
+func (u *redisUtil) MemberUserTokenArr() string {
+	return MemberUserTokenArr
 }
 
-// AdminToken 后台用户Token
-func (u *redisUtil) AdminToken(adminNo int64) string {
-	return AdminToken + gconv.String(adminNo)
+// MemberToken 后台用户Token
+func (u *redisUtil) MemberToken(memberNo int64) string {
+	return MemberToken + gconv.String(memberNo)
 }
 
-// AdminUserTokenExpire .
-func (u *redisUtil) AdminUserTokenExpire() uint {
-	return AdminUserTokenExpire
+// MemberUserTokenExpire .
+func (u *redisUtil) MemberUserTokenExpire() uint {
+	return MemberUserTokenExpire
 }
 
+// JwtToken .
 func (u *redisUtil) JwtToken() string {
 	return JwtToken
 }
 
+// JwtUserBind .
 func (u *redisUtil) JwtUserBind() string {
 	return JwtUserBind
+}
+
+// PhoneResetPassWdCode 手机忘记密码短信key
+func (u *redisUtil) PhoneResetPassWdCode() string {
+	return PhoneResetPassWdCode
+}
+
+// EmailResetPassWdCode 邮箱忘记密码短信key
+func (u *redisUtil) EmailResetPassWdCode() string {
+	return EmailResetPassWdCode
 }
