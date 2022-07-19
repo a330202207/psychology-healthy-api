@@ -6,10 +6,17 @@ package service
 
 import (
 	"context"
+
+	"github.com/a330202207/psychology-healthy-api/internal/dao"
+	"github.com/a330202207/psychology-healthy-api/internal/model"
+	"github.com/a330202207/psychology-healthy-api/internal/service"
+	"github.com/gogf/gf/v2/errors/gerror"
 )
 
 type IRule interface {
 	UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []int64) (err error)
+	Edit(ctx context.Context) (err error)
+	Del(cxt context.Context, in *model.RuleDelInput) (err error)
 }
 
 var localRule IRule

@@ -164,7 +164,7 @@ func (s *sMember) Del(ctx context.Context, in *model.MemberBaseInput) (err error
 }
 
 // ResetPassWd 重置密码
-func (s *sMember) ResetPassWd(ctx context.Context, in *model.MemberResetPassWdInut) (err error) {
+func (s *sMember) ResetPassWd(ctx context.Context, in *model.MemberResetPassWdInput) (err error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-service-member-ResetPassWd")
 	defer span.End()
 

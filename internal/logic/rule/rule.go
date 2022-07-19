@@ -13,6 +13,7 @@ import (
 	"github.com/gogf/gf/v2/errors/gerror"
 
 	"github.com/a330202207/psychology-healthy-api/internal/dao"
+	"github.com/a330202207/psychology-healthy-api/internal/model"
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
 
@@ -29,9 +30,7 @@ func New() *sRule {
 
 // UpdateRuleByIds 更新用户角色
 func (s *sRule) UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []int64) (err error) {
-	var (
-		ruleData []map[string]interface{}
-	)
+	var ruleData []map[string]interface{}
 
 	if _, err = dao.SysMemberRole.Ctx(ctx).Where("member_id", memberId).Delete(); err != nil {
 		err = gerror.Wrap(err, "del rule err!")
@@ -51,5 +50,20 @@ func (s *sRule) UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []i
 		return err
 	}
 
+	return
+}
+
+// Edit 添加/编辑角色
+func (s *sRule) Edit(ctx context.Context) (err error) {
+
+	return
+}
+
+// Del .删除角色
+func (s *sRule) Del(cxt context.Context, in *model.RuleDelInput) (err error) {
+
+	if _, err = dao.SysRole.Ctx(cxt).Delete("id", in.ID); err != nil {
+		return
+	}
 	return
 }

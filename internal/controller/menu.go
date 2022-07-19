@@ -11,3 +11,9 @@ var Menu = cMenu{}
 
 type cMenu struct {
 }
+
+// 添加/编辑菜单
+
+// 删除菜单
+
+// 菜单列表

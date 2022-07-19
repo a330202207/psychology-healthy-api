@@ -9,6 +9,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+
+	"github.com/a330202207/psychology-healthy-api/internal/model"
 )
 
 // MemberEditReq .
@@ -84,6 +86,9 @@ type MemberListReq struct {
 
 // MemberListRes .
 type MemberListRes struct {
+	g.Meta   `mime:"application/json"`
+	List     []*model.MemberListOut `json:"list"`
+	PageInfo *PageInfo              `json:"pageInfo"`
 }
 
 // MemberGetInfoReq .

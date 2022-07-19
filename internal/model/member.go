@@ -7,6 +7,10 @@
 
 package model
 
+import (
+	"github.com/a330202207/psychology-healthy-api/internal/model/entity"
+)
+
 // MemberEditInput .
 type MemberEditInput struct {
 	ID         int64
@@ -38,10 +42,19 @@ type MemberBaseInput struct {
 	ID int64
 }
 
-// MemberResetPassWdInut .
-type MemberResetPassWdInut struct {
+// MemberResetPassWdInput .
+type MemberResetPassWdInput struct {
 	Type       uint
 	Account    string
 	VerifyCode string
 	Passwd     string
+}
+
+// MemberListInput .
+type MemberListInput struct {
+}
+
+// MemberListOut .
+type MemberListOut struct {
+	*entity.SysMember
 }
