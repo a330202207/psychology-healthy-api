@@ -75,14 +75,14 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	}()
 
 	if in.ID > 0 {
-		if _, err = dao.SysMember.Ctx(ctx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
+		if _, err = dao.SysMember.Ctx(ctx).TX(tx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
 			g.Log(logger).Error(ctx, "service Member Edit update mysql error:", err.Error())
 			err = errors.New("操作失败[003]")
 			return
 		}
 	} else {
 		in.Passwd = string(passWd)
-		in.ID, err = dao.SysMember.Ctx(ctx).OmitEmpty().InsertAndGetId(in)
+		in.ID, err = dao.SysMember.Ctx(ctx).TX(tx).OmitEmpty().InsertAndGetId(in)
 		if err != nil {
 			g.Log(logger).Error(ctx, "service Member Edit insert mysql error:", err.Error())
 			err = errors.New("操作失败[004]")
@@ -91,7 +91,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	}
 
 	// 更新角色
-	if err = service.Rule().UpdateRuleByIds(ctx, in.ID, in.RuleIds); err != nil {
+	if err = service.Rule().UpdateRuleByIds(ctx, in.ID, in.RuleIds, tx); err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit update rule error:", err.Error())
 		err = errors.New("操作失败[005]")
 		return
@@ -154,9 +154,30 @@ func (s *sMember) Del(ctx context.Context, in *model.MemberBaseInput) (err error
 		return err
 	}
 
+	tx, err := g.DB().Begin(ctx)
+	if err != nil {
+		g.Log(logger).Error(ctx, "service Member Edit Transaction error:", err.Error())
+		err = errors.New("操作失败[002]")
+		return err
+	}
+
+	defer func() {
+		if err != nil {
+			_ = tx.Rollback()
+		} else {
+			_ = tx.Commit()
+		}
+	}()
+
 	if _, err = dao.SysMember.Ctx(ctx).Delete("id", in.ID); err != nil {
 		g.Log(logger).Error(ctx, "service Member Del error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = errors.New("操作失败[003]")
+		return
+	}
+
+	if _, err = dao.SysMemberRole.Ctx(ctx).Delete("member_id", in.ID); err != nil {
+		g.Log(logger).Error(ctx, "service MemberRole Del error:", err.Error())
+		err = errors.New("操作失败[004]")
 		return
 	}
 

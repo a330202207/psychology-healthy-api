@@ -6,17 +6,22 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/a330202207/psychology-healthy-api/internal/dao"
 	"github.com/a330202207/psychology-healthy-api/internal/model"
 	"github.com/a330202207/psychology-healthy-api/internal/service"
+	"github.com/gogf/gf/v2/database/gdb"
 	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/gtrace"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type IRule interface {
-	UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []int64) (err error)
-	Edit(ctx context.Context) (err error)
-	Del(cxt context.Context, in *model.RuleDelInput) (err error)
+	UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []int64, tx *gdb.TX) (err error)
+	Edit(ctx context.Context, in *model.RuleEditInput) (err error)
+	Del(cxt context.Context, in *model.RuleBaseInput) (err error)
 }
 
 var localRule IRule

@@ -43,3 +43,23 @@ type RuleListReq struct {
 // RuleListRes .
 type RuleListRes struct {
 }
+
+// RuleGetReq .
+type RuleGetReq struct {
+	g.Meta `path:"/get" method:"get" tag:"ruleService" summary:"角色信息" tags:"角色信息"`
+	ID     int64 `json:"id"`
+}
+
+// RuleGetRes .
+type RuleGetRes struct {
+}
+
+// RuleGetRulesReq .
+type RuleGetRulesReq struct {
+	g.Meta `path:"/get/rules" method:"get" tag:"ruleService" summary:"角色列表(不带分页)" tags:"角色列表(不带分页)"`
+	ID     int64 `json:"id"`
+}
+
+// RuleGetRulesRes .
+type RuleGetRulesRes struct {
+}

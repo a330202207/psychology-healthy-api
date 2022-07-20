@@ -5,6 +5,8 @@
 package dao
 
 import (
+	"context"
+
 	"github.com/a330202207/psychology-healthy-api/internal/dao/internal"
 )
 
@@ -25,3 +27,16 @@ var (
 )
 
 // Fill with you ideas below.
+
+// IsUniqueName 角色名称是否唯一
+func (d *sysRoleDao) IsUniqueName(ctx context.Context, name string) (bool, error) {
+	count, err := d.Ctx(ctx).Where("name", name).Count()
+	if err != nil {
+		return false, err
+	}
+
+	if count > 0 {
+		return true, nil
+	}
+	return false, nil
+}
