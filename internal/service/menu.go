@@ -6,10 +6,14 @@ package service
 
 import (
 	"context"
+
+	"github.com/a330202207/psychology-healthy-api/internal/model"
 )
 
 type IMenu interface {
-	Edit(ctx context.Context) (err error)
+	Edit(ctx context.Context, in *model.MenuEditInput) (err error)
+	Del(ctx context.Context, in *model.MenuBaseInput) (err error)
+	Get(ctx context.Context, in *model.MenuBaseInput) (res *model.MenuGetOut, err error)
 }
 
 var localMenu IMenu

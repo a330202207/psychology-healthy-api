@@ -112,8 +112,8 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 }
 
 // Del .删除角色
-func (s *sRule) Del(cxt context.Context, in *model.RuleBaseInput) (err error) {
-	ctx, span := gtrace.NewSpan(cxt, "tracing-service-rule-Del")
+func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-Del")
 	defer span.End()
 	var logger = gconv.String(ctx.Value("logger"))
 
@@ -132,11 +132,15 @@ func (s *sRule) Del(cxt context.Context, in *model.RuleBaseInput) (err error) {
 		}
 	}()
 
-	if _, err = dao.SysRole.Ctx(cxt).TX(tx).Delete("id", in.ID); err != nil {
+	if _, err = dao.SysRole.Ctx(ctx).TX(tx).Delete("id", in.ID); err != nil {
+		g.Log(logger).Error(ctx, "service Rule Del delete mysql error:", err.Error())
+		err = errors.New("操作失败[002]")
 		return
 	}
 
-	if _, err = dao.SysRoleMenu.Ctx(cxt).TX(tx).Delete("role_id", in.ID); err != nil {
+	if _, err = dao.SysRoleMenu.Ctx(ctx).TX(tx).Delete("role_id", in.ID); err != nil {
+		g.Log(logger).Error(ctx, "service RuleMenu Del delete mysql error:", err.Error())
+		err = errors.New("操作失败[003]")
 		return
 	}
 

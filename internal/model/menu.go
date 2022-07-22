@@ -9,6 +9,22 @@ package model
 
 // MenuEditInput .
 type MenuEditInput struct {
+	ID        int64
+	PID       int64
+	Name      string
+	Code      string
+	Icon      string
+	Status    uint
+	Type      uint
+	Perms     string
+	Sort      uint
+	Path      string
+	Component string
+	Query     string
+	IsCache   bool
+	IsLeaf    bool
+	Level     uint
+	Tree      string
 }
 
 // MenuListInput .
@@ -17,4 +33,13 @@ type MenuListInput struct {
 
 // MenuListOut .
 type MenuListOut struct {
+}
+
+// MenuBaseInput .
+type MenuBaseInput struct {
+	ID int64
+}
+
+// MenuGetOut .
+type MenuGetOut struct {
 }
