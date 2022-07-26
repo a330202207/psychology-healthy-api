@@ -22,6 +22,26 @@ type cMenu struct {
 
 // Edit 添加/编辑菜单
 func (c *cMenu) Edit(ctx context.Context, input *v1.MenuEditReq) (res *v1.MenuEditRes, err error) {
+	if err = service.Menu().Edit(ctx, &model.MenuEditInput{
+		ID:        input.ID,
+		PID:       input.PID,
+		Name:      input.Name,
+		Code:      input.Code,
+		Icon:      input.Icon,
+		Status:    input.Status,
+		Type:      input.Type,
+		Perms:     input.Perms,
+		Sort:      input.Sort,
+		Path:      input.Path,
+		Component: input.Component,
+		Query:     input.Query,
+		IsCache:   input.IsCache,
+		IsLeaf:    input.IsLeaf,
+		Level:     input.Level,
+		Tree:      input.Tree,
+	}); err != nil {
+		return
+	}
 	return
 }
 

@@ -108,6 +108,8 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 		}
 	}
 
+	dao.SysRoleMenu.Ctx(ctx).TX(tx).Insert(g.Map{})
+
 	return
 }
 

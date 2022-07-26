@@ -33,6 +33,50 @@ func New() *sMenu {
 
 // Edit 添加/编辑菜单
 func (s *sMenu) Edit(ctx context.Context, in *model.MenuEditInput) (err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-menu-Edit")
+	defer span.End()
+	var logger = gconv.String(ctx.Value("logger"))
+
+	ok, err := dao.SysMenu.IsUniqueName(ctx, in.Name)
+	if err != nil {
+		g.Log(logger).Error(ctx, "service Menu EditIsUniqueName error:", err.Error())
+		err = errors.New("操作失败[001]")
+		return err
+	}
+
+	if ok {
+		g.Log(logger).Error(ctx, "service Menu name exist")
+		err = errors.New("菜单名称已存在")
+		return err
+	}
+
+	tx, err := g.DB().Begin(ctx)
+	if err != nil {
+		g.Log(logger).Error(ctx, "service Menu Del Transaction error:", err.Error())
+		err = errors.New("操作失败[002]")
+		return err
+	}
+
+	if in.ID > 0 {
+		if _, err = dao.SysRole.Ctx(ctx).TX(tx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
+			g.Log(logger).Error(ctx, "service Menu Edit update mysql error:", err.Error())
+			err = errors.New("操作失败[002]")
+			return
+		}
+	} else {
+		in.ID, err = dao.SysMenu.Ctx(ctx).TX(tx).OmitEmpty().InsertAndGetId()
+		if err != nil {
+			g.Log(logger).Error(ctx, "service Menu Edit insert mysql error[01]:", err.Error())
+			err = errors.New("操作失败[003]")
+			return
+		}
+
+		if in.ID != 1 {
+			g.Log(logger).Error(ctx, "service Menu Edit insert mysql error[02],ID:", in.ID)
+			err = errors.New("操作失败[004]")
+			return
+		}
+	}
 
 	return
 }
