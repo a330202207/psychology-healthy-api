@@ -54,3 +54,22 @@ type MenuListReq struct {
 // MenuListRes .
 type MenuListRes struct {
 }
+
+// MenuGetReq .
+type MenuGetReq struct {
+	g.Meta `path:"/menu/get" method:"get" tag:"menuService" summary:"获取菜单信息" tags:"获取菜单信息"`
+	ID     int64 `v:"required#菜单ID不能为空" json:"id"`
+}
+
+// MenuGetRes .
+type MenuGetRes struct {
+}
+
+// MenuGetAllReq .
+type MenuGetAllReq struct {
+	g.Meta `path:"/menu/getAll" method:"get" tag:"menuService" summary:"获取所有菜单" tags:"获取所有菜单"`
+}
+
+// MenuGetAllRes .
+type MenuGetAllRes struct {
+}

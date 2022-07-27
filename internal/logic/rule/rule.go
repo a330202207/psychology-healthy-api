@@ -11,8 +11,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/gogf/gf/v2/database/gdb"
-	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/gtrace"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -31,31 +29,6 @@ func init() {
 
 func New() *sRule {
 	return &sRule{}
-}
-
-// UpdateRuleByIds 更新用户角色
-func (s *sRule) UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []int64, tx *gdb.TX) (err error) {
-	var ruleData []map[string]interface{}
-
-	if _, err = dao.SysMemberRole.Ctx(ctx).TX(tx).Where("member_id", memberId).Delete(); err != nil {
-		err = gerror.Wrap(err, "del rule err!")
-		return err
-	}
-
-	for _, val := range ruleIds {
-		var data = make(map[string]interface{})
-		data["member_id"] = memberId
-		data["rule_id"] = val
-
-		ruleData = append(ruleData, data)
-	}
-
-	if _, err = dao.SysMemberRole.Ctx(ctx).TX(tx).Insert(ruleData); err != nil {
-		err = gerror.Wrap(err, "batch insert rule err")
-		return err
-	}
-
-	return
 }
 
 // Edit 添加/编辑角色
@@ -108,7 +81,11 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 		}
 	}
 
-	dao.SysRoleMenu.Ctx(ctx).TX(tx).Insert(g.Map{})
+	if err = dao.SysRoleMenu.UpdateRoleMenuByIds(ctx, in.ID, in.MenuIds, tx); err != nil {
+		g.Log(logger).Error(ctx, "service Rule Edit update UpdateRoleMenuByIds error:", err.Error())
+		err = errors.New("操作失败[004]")
+		return
+	}
 
 	return
 }

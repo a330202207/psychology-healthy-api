@@ -7,13 +7,10 @@ package service
 import (
 	"context"
 
-	"github.com/gogf/gf/v2/database/gdb"
-
 	"github.com/a330202207/psychology-healthy-api/internal/model"
 )
 
 type IRule interface {
-	UpdateRuleByIds(ctx context.Context, memberId int64, ruleIds []int64, tx *gdb.TX) (err error)
 	Edit(ctx context.Context, in *model.RuleEditInput) (err error)
 	Del(ctx context.Context, in *model.RuleBaseInput) (err error)
 }

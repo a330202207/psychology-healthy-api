@@ -54,12 +54,11 @@ type RuleGetReq struct {
 type RuleGetRes struct {
 }
 
-// RuleGetRulesReq .
-type RuleGetRulesReq struct {
-	g.Meta `path:"/get/rules" method:"get" tag:"ruleService" summary:"角色列表(不带分页)" tags:"角色列表(不带分页)"`
-	ID     int64 `json:"id"`
+// RuleGetAllReq .
+type RuleGetAllReq struct {
+	g.Meta `path:"/getAll" method:"get" tag:"ruleService" summary:"获取所有角色" tags:"获取所有角色"`
 }
 
-// RuleGetRulesRes .
-type RuleGetRulesRes struct {
+// RuleGetAllRes .
+type RuleGetAllRes struct {
 }

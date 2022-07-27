@@ -57,3 +57,13 @@ func (c *cMenu) Del(ctx context.Context, input *v1.MenuDelReq) (res *v1.MenuDelR
 func (c *cMenu) List(ctx context.Context, input *v1.MenuListReq) (res *v1.MenuListRes, err error) {
 	return
 }
+
+// Get 获取菜单信息
+func (c *cMenu) Get(ctx context.Context, input *v1.MenuGetReq) (res *v1.MenuGetRes, err error) {
+	return
+}
+
+// GetAll 获取所有菜单
+func (c *cMenu) GetAll(ctx context.Context, input *v1.MenuGetAllReq) (res *v1.MenuGetAllRes, err error) {
+	return
+}

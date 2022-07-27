@@ -47,12 +47,12 @@ func (c *cRule) List(ctx context.Context, input *v1.RuleListReq) (res *v1.RuleLi
 	return
 }
 
-// GetRules .
-func (c *cRule) GetRules(ctx context.Context, input *v1.RuleGetRulesReq) (res *v1.RuleGetRulesRes, err error) {
+// GetAll 获取所有角色
+func (c *cRule) GetAll(ctx context.Context, input *v1.RuleGetAllReq) (res *v1.RuleGetAllRes, err error) {
 	return
 }
 
-// Get .
+// Get 获取角色信息
 func (c *cRule) Get(ctx context.Context, input *v1.RuleGetReq) (res *v1.RuleGetRes, err error) {
 	return
 }

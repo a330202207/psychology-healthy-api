@@ -33,7 +33,7 @@ func New() *sMember {
 	return &sMember{}
 }
 
-// Edit 新增/修改
+// Edit 新增/修改管理员
 func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-service-member-Edit")
 	defer span.End()
@@ -75,6 +75,8 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	}()
 
 	if in.ID > 0 {
+
+		// 更新用户
 		if _, err = dao.SysMember.Ctx(ctx).TX(tx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
 			g.Log(logger).Error(ctx, "service Member Edit update mysql error:", err.Error())
 			err = errors.New("操作失败[003]")
@@ -91,9 +93,9 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	}
 
 	// 更新角色
-	if err = service.Rule().UpdateRuleByIds(ctx, in.ID, in.RuleIds, tx); err != nil {
-		g.Log(logger).Error(ctx, "service Member Edit update rule error:", err.Error())
-		err = errors.New("操作失败[005]")
+	if err = dao.SysMemberRole.UpdateMemberRoleByIds(ctx, in.ID, in.RuleIds, tx); err != nil {
+		g.Log(logger).Error(ctx, "service Member Edit update UpdateMemberRoleByIds error:", err.Error())
+		err = errors.New("操作失败[006]")
 		return
 	}
 

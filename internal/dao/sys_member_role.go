@@ -5,6 +5,10 @@
 package dao
 
 import (
+	"context"
+
+	"github.com/gogf/gf/v2/database/gdb"
+
 	"github.com/a330202207/psychology-healthy-api/internal/dao/internal"
 )
 
@@ -25,3 +29,26 @@ var (
 )
 
 // Fill with you ideas below.
+
+// UpdateMemberRoleByIds 更新用户角色
+func (d *sysMemberRoleDao) UpdateMemberRoleByIds(ctx context.Context, memberId int64, ruleIds []int64, tx *gdb.TX) (err error) {
+	if _, err = d.Ctx(ctx).TX(tx).Where("member_id", memberId).Delete(); err != nil {
+		return
+	}
+
+	var ruleData []map[string]interface{}
+
+	for _, val := range ruleIds {
+		var data = make(map[string]interface{})
+		data["member_id"] = memberId
+		data["rule_id"] = val
+
+		ruleData = append(ruleData, data)
+	}
+
+	if _, err = d.Ctx(ctx).TX(tx).Insert(ruleData); err != nil {
+		return
+	}
+
+	return
+}

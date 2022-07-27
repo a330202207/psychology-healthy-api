@@ -5,6 +5,10 @@
 package dao
 
 import (
+	"context"
+
+	"github.com/gogf/gf/v2/database/gdb"
+
 	"github.com/a330202207/psychology-healthy-api/internal/dao/internal"
 )
 
@@ -25,3 +29,26 @@ var (
 )
 
 // Fill with you ideas below.
+
+// UpdateRoleMenuByIds 更新角色菜单
+func (d *sysRoleMenuDao) UpdateRoleMenuByIds(ctx context.Context, ruleId int64, menusIds []int64, tx *gdb.TX) (err error) {
+	if _, err = d.Ctx(ctx).TX(tx).Where("role_id", ruleId).Delete(); err != nil {
+		return
+	}
+
+	var menuData []map[string]interface{}
+
+	for _, val := range menusIds {
+		var data = make(map[string]interface{})
+		data["rule_id"] = ruleId
+		data["menu_id"] = val
+
+		menuData = append(menuData, data)
+	}
+
+	if _, err = d.Ctx(ctx).TX(tx).Insert(menuData); err != nil {
+		return
+	}
+
+	return
+}
