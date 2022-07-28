@@ -7,7 +7,11 @@ package dao
 import (
 	"context"
 
+	"github.com/gogf/gf/v2/util/gconv"
+
 	"github.com/a330202207/psychology-healthy-api/internal/dao/internal"
+	"github.com/a330202207/psychology-healthy-api/internal/model"
+	"github.com/a330202207/psychology-healthy-api/internal/model/entity"
 )
 
 // internalSysMenuDao is internal type for wrapping internal DAO implements.
@@ -39,4 +43,23 @@ func (d *sysMenuDao) IsUniqueName(ctx context.Context, name string) (bool, error
 		return true, nil
 	}
 	return false, nil
+}
+
+// GenTreeList 树形菜单
+func (d *sysMenuDao) GenTreeList(ctx context.Context, pid uint64, list []*entity.SysMenu) (treeList []*model.MenuTree) {
+	treeList = make([]*model.MenuTree, 0, len(list))
+
+	for _, v := range list {
+		if v.Pid == pid {
+			t := &model.MenuTree{
+				SysMenu: v,
+			}
+			child := d.GenTreeList(ctx, gconv.Uint64(v.Id), list)
+			if len(child) > 0 {
+				t.Children = child
+			}
+			treeList = append(treeList, t)
+		}
+	}
+	return
 }

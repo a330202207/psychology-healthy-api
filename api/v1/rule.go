@@ -23,6 +23,7 @@ type RuleEditReq struct {
 
 // RuleEditRes .
 type RuleEditRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // RuleDelReq .
@@ -33,6 +34,7 @@ type RuleDelReq struct {
 
 // RuleDelRes .
 type RuleDelRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // RuleListReq .
@@ -42,6 +44,8 @@ type RuleListReq struct {
 
 // RuleListRes .
 type RuleListRes struct {
+	g.Meta   `mime:"application/json"`
+	PageInfo *PageInfo `json:"pageInfo"`
 }
 
 // RuleGetReq .
@@ -61,4 +65,5 @@ type RuleGetAllReq struct {
 
 // RuleGetAllRes .
 type RuleGetAllRes struct {
+	g.Meta `mime:"application/json"`
 }

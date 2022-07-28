@@ -13,7 +13,8 @@ import (
 type IMenu interface {
 	Edit(ctx context.Context, in *model.MenuEditInput) (err error)
 	Del(ctx context.Context, in *model.MenuBaseInput) (err error)
-	Get(ctx context.Context, in *model.MenuBaseInput) (res *model.MenuGetOut, err error)
+	Get(ctx context.Context, in *model.MenuBaseInput) (res []*model.MenuGetOut, err error)
+	GetAll(ctx context.Context) (res []*model.MenuTree, err error)
 }
 
 var localMenu IMenu

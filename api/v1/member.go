@@ -36,6 +36,7 @@ type MemberEditReq struct {
 
 // MemberEditRes .
 type MemberEditRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MemberUpdatePassWdReq .

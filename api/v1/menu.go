@@ -9,6 +9,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+
+	"github.com/a330202207/psychology-healthy-api/internal/model"
 )
 
 // MenuEditReq .
@@ -34,6 +36,7 @@ type MenuEditReq struct {
 
 // MenuEditRes .
 type MenuEditRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MenuDelReq .
@@ -44,6 +47,7 @@ type MenuDelReq struct {
 
 // MenuDelRes .
 type MenuDelRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MenuListReq .
@@ -53,6 +57,8 @@ type MenuListReq struct {
 
 // MenuListRes .
 type MenuListRes struct {
+	g.Meta   `mime:"application/json"`
+	PageInfo *PageInfo `json:"pageInfo"`
 }
 
 // MenuGetReq .
@@ -63,6 +69,7 @@ type MenuGetReq struct {
 
 // MenuGetRes .
 type MenuGetRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MenuGetAllReq .
@@ -72,4 +79,6 @@ type MenuGetAllReq struct {
 
 // MenuGetAllRes .
 type MenuGetAllRes struct {
+	g.Meta `mime:"application/json"`
+	List   []*model.MenuTree `json:"list"`
 }

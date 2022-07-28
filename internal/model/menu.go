@@ -7,6 +7,10 @@
 
 package model
 
+import (
+	"github.com/a330202207/psychology-healthy-api/internal/model/entity"
+)
+
 // MenuEditInput .
 type MenuEditInput struct {
 	ID        int64
@@ -42,4 +46,18 @@ type MenuBaseInput struct {
 
 // MenuGetOut .
 type MenuGetOut struct {
+}
+
+// MenuTree 菜单树
+type MenuTree struct {
+	*entity.SysMenu
+	Children []*MenuTree `json:"children"`
+}
+
+// LabelMenuTree 菜单kl树
+type LabelMenuTree struct {
+	entity.SysMenu
+	Key      int64            `json:"key"       description:"键名"`
+	Label    string           `json:"label"       description:"键标签"`
+	Children []*LabelMenuTree `json:"children"`
 }

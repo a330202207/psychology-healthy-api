@@ -65,5 +65,9 @@ func (c *cMenu) Get(ctx context.Context, input *v1.MenuGetReq) (res *v1.MenuGetR
 
 // GetAll 获取所有菜单
 func (c *cMenu) GetAll(ctx context.Context, input *v1.MenuGetAllReq) (res *v1.MenuGetAllRes, err error) {
+	res.List, err = service.Menu().GetAll(ctx)
+	if err != nil {
+		return
+	}
 	return
 }

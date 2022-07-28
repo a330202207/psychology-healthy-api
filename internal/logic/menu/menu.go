@@ -17,6 +17,7 @@ import (
 
 	"github.com/a330202207/psychology-healthy-api/internal/dao"
 	"github.com/a330202207/psychology-healthy-api/internal/model"
+	"github.com/a330202207/psychology-healthy-api/internal/model/entity"
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
 
@@ -118,8 +119,29 @@ func (s *sMenu) Del(ctx context.Context, in *model.MenuBaseInput) (err error) {
 }
 
 // Get 菜单详情
-func (s *sMenu) Get(ctx context.Context, in *model.MenuBaseInput) (res *model.MenuGetOut, err error) {
-
+func (s *sMenu) Get(ctx context.Context, in *model.MenuBaseInput) (res []*model.MenuGetOut, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-menu-Get")
+	defer span.End()
 	return
 
+}
+
+// GetAll 菜单列表
+func (s *sMenu) GetAll(ctx context.Context) (res []*model.MenuTree, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-menu-GetAll")
+	defer span.End()
+
+	var (
+		logger = gconv.String(ctx.Value("logger"))
+		list   []*entity.SysMenu
+	)
+
+	if err = dao.SysMenu.Ctx(ctx).Where("status = ?", 10).Where("is_visible = ?", 20).Scan(&list); err != nil {
+		g.Log(logger).Error(ctx, "service Menu GetAll error:", err.Error())
+		return
+	}
+
+	res = dao.SysMenu.GenTreeList(ctx, 0, list)
+
+	return
 }
