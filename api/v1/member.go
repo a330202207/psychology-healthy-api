@@ -48,6 +48,7 @@ type MemberUpdatePassWdReq struct {
 
 // MemberUpdatePassWdRes .
 type MemberUpdatePassWdRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MemberResetPassWdReq .
@@ -61,6 +62,7 @@ type MemberResetPassWdReq struct {
 
 // MemberResetPassWdRes .
 type MemberResetPassWdRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MemberDelReq .
@@ -71,6 +73,7 @@ type MemberDelReq struct {
 
 // MemberDelRes .
 type MemberDelRes struct {
+	g.Meta `mime:"application/json"`
 }
 
 // MemberListReq .
@@ -92,14 +95,15 @@ type MemberListRes struct {
 	PageInfo *PageInfo              `json:"pageInfo"`
 }
 
-// MemberGetInfoReq .
-type MemberGetInfoReq struct {
-	g.Meta `path:"/admin/getInfo" method:"get" tag:"memberService" summary:"获取管理员信息" tags:"获取管理员信息"`
+// MemberGetReq .
+type MemberGetReq struct {
+	g.Meta `path:"/admin/get" method:"get" tag:"memberService" summary:"获取管理员信息" tags:"获取管理员信息"`
 	ID     int64 `v:"required#管理员ID不能为空" json:"id"`
 }
 
-// MemberGetInfoRes .
-type MemberGetInfoRes struct {
+// MemberGetRes .
+type MemberGetRes struct {
+	g.Meta     `mime:"application/json"`
 	ID         int64   `json:"id"`
 	RuleIds    []int64 `json:"ruleIds" dc:"角色ID"`
 	UserName   string  `json:"username" dc:"用户名"`

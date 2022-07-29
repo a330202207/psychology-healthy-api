@@ -25,13 +25,13 @@ type MenuEditReq struct {
 	PID       int64  `v:"required#菜单名称不能为空" json:"pid" dc:"父级菜单ID"`
 	Type      uint   `v:"required#菜单名称不能为空" json:"type" dc:"菜单类型：1-目录，2-菜单，3-按钮"`
 	Perms     string `json:"perms" dc:"权限标识"`
-	Path      string `v:"required#路由地址不能为空" json:"path"`
-	Component string `json:"component"`
-	Query     string `json:"query"`
-	IsCache   bool   `v:"required#是否缓存不能为空" json:"isCache"`
-	IsLeaf    bool   `v:"required#是否隐藏不能为空" json:"isLeaf"`
-	Level     uint   `v:"required#菜单级别不能为空" json:"level"`
-	Tree      string `json:"tree"`
+	Path      string `v:"required#路由地址不能为空" json:"path" dc:"路由地址"`
+	Component string `json:"component" dc:"组件路径"`
+	Query     string `json:"query" dc:"路由参数"`
+	IsCache   bool   `v:"required#是否缓存不能为空" json:"isCache" dc:"是否缓存"`
+	IsLeaf    bool   `v:"required#是否隐藏不能为空" json:"isLeaf" dc:"是否隐藏"`
+	Level     uint   `v:"required#菜单级别不能为空" json:"level" dc:"菜单级别"`
+	Tree      string `json:"tree" dc:"菜单树"`
 }
 
 // MenuEditRes .
@@ -69,7 +69,23 @@ type MenuGetReq struct {
 
 // MenuGetRes .
 type MenuGetRes struct {
-	g.Meta `mime:"application/json"`
+	g.Meta    `mime:"application/json"`
+	ID        int64  `json:"id" dc:"菜单ID"`
+	Name      string `json:"name" dc:"菜单名称"`
+	Icon      string `json:"icon" dc:"菜单图标"`
+	Code      string `json:"code" dc:"菜单编码"`
+	Status    uint   `json:"status" dc:"菜单状态：10-开启，20-关闭"`
+	Sort      uint   `json:"sort" dc:"排序"`
+	PID       int64  `json:"pid" dc:"父级菜单ID"`
+	Type      uint   `json:"type" dc:"菜单类型：1-目录，2-菜单，3-按钮"`
+	Perms     string `json:"perms" dc:"权限标识"`
+	Path      string `json:"path" dc:"路由地址"`
+	Component string `json:"component" dc:"组件路径"`
+	Query     string `json:"query" dc:"路由参数"`
+	IsCache   bool   `json:"isCache" dc:"是否缓存"`
+	IsLeaf    bool   `json:"isLeaf" dc:"是否隐藏"`
+	Level     uint   `json:"level" dc:"菜单级别"`
+	Tree      string `json:"tree" dc:"菜单树"`
 }
 
 // MenuGetAllReq .

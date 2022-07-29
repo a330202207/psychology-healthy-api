@@ -57,8 +57,8 @@ func (c *cMember) UpdatePassWd(ctx context.Context, input *v1.MemberUpdatePassWd
 	return
 }
 
-// GetInfo 获取管理员信息
-func (c *cMember) GetInfo(ctx context.Context, input *v1.MemberGetInfoReq) (res *v1.MemberGetInfoRes, err error) {
+// Get 获取管理员信息
+func (c *cMember) Get(ctx context.Context, input *v1.MemberGetReq) (res *v1.MemberGetRes, err error) {
 	return
 }
 
