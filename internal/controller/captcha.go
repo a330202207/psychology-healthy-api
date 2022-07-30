@@ -21,13 +21,13 @@ var Captcha = cCaptcha{}
 type cCaptcha struct{}
 
 // Get 获取验证码
-func (c *cCaptcha) Get(ctx context.Context) (res *v1.CaptchaRes, err error) {
+func (c *cCaptcha) Get(ctx context.Context, input *v1.CaptchaReq) (res *v1.CaptchaRes, err error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-api-admin-captcha-get")
 	defer span.End()
 
 	idKeyC, base64s, err := service.Captcha().GetVerifyImgString(ctx)
 	if err != nil {
-		return nil, err
+		return
 	}
 
 	res = &v1.CaptchaRes{

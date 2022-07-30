@@ -5,7 +5,10 @@ import (
 
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/net/goai"
 	"github.com/gogf/gf/v2/os/gcmd"
+
+	"github.com/a330202207/psychology-healthy-api/internal/consts"
 )
 
 var (
@@ -20,8 +23,25 @@ var (
 				group.Middleware(ghttp.MiddlewareCORS)
 				BindRouter(group)
 			})
+			enhanceOpenAPIDoc(s)
 			s.Run()
 			return nil
 		},
 	}
 )
+
+func enhanceOpenAPIDoc(s *ghttp.Server) {
+	openapi := s.GetOpenApi()
+	openapi.Config.CommonResponse = ghttp.DefaultHandlerResponse{}
+	openapi.Config.CommonResponseDataField = `Data`
+
+	// API description.
+	openapi.Info = goai.Info{
+		Title:       consts.OpenAPITitle,
+		Description: consts.OpenAPIDescription,
+		Contact: &goai.Contact{
+			Name: consts.OpenAPIContactName,
+			URL:  consts.OpenAPIContactUrl,
+		},
+	}
+}

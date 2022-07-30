@@ -50,7 +50,7 @@ type RuleListRes struct {
 
 // RuleGetReq .
 type RuleGetReq struct {
-	g.Meta `path:"/get" method:"get" tag:"ruleService" summary:"角色信息" tags:"角色信息"`
+	g.Meta `path:"/rule/get" method:"get" tag:"ruleService" summary:"角色信息" tags:"角色信息"`
 	ID     int64 `json:"id"`
 }
 
@@ -60,7 +60,7 @@ type RuleGetRes struct {
 
 // RuleGetAllReq .
 type RuleGetAllReq struct {
-	g.Meta `path:"/getAll" method:"get" tag:"ruleService" summary:"获取所有角色" tags:"获取所有角色"`
+	g.Meta `path:"/rule/getAll" method:"get" tag:"ruleService" summary:"获取所有角色" tags:"获取所有角色"`
 }
 
 // RuleGetAllRes .
