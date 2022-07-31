@@ -100,7 +100,7 @@ func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Rule Del Transaction error:", err.Error())
 		err = errors.New("操作失败[001]")
-		return err
+		return
 	}
 
 	defer func() {
@@ -123,5 +123,54 @@ func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
 		return
 	}
 
+	return
+}
+
+// List 获取角色列表
+func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.RuleListOut, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-list")
+	defer span.End()
+	var logger = gconv.String(ctx.Value("logger"))
+	m := dao.SysRole.Ctx(ctx)
+	if in.ID > 0 {
+		m.Where("id = ?", in.ID)
+	}
+
+	if in.Name != "" {
+		m.Where("name = ?", in.Name)
+	}
+
+	if in.Status > 0 {
+		m.Where("status = ?", in.Status)
+	}
+	out.Total, err = m.Count()
+	if err != nil {
+		g.Log(logger).Error(ctx, "service Rule list count error:", err.Error())
+		err = errors.New("获取角色数据失败[01]")
+		return
+	}
+	out.Page = in.Page
+	out.PageSize = in.PageSize
+
+	if err = m.Page(in.Page, in.PageSize).Order("sort asc,id asc").Scan(&out.List); err != nil {
+		g.Log(logger).Error(ctx, "service Rule list scan error:", err.Error())
+		err = errors.New("获取角色数据失败[02]")
+		return
+	}
+
+	return
+}
+
+// GetAll 获取所有角色
+func (s sRule) GetAll(ctx context.Context) (out []*model.RuleItem, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-list")
+	defer span.End()
+	var logger = gconv.String(ctx.Value("logger"))
+
+	if err = dao.SysRole.Ctx(ctx).Where("status = 10").Order("sort asc,id asc").Scan(&out); err != nil {
+		g.Log(logger).Error(ctx, "service GetAll list scan error:", err.Error())
+		err = errors.New("获取角色数据失败")
+		return
+	}
 	return
 }

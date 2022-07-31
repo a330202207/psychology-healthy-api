@@ -9,6 +9,8 @@ package v1
 
 import (
 	"github.com/gogf/gf/v2/frame/g"
+
+	"github.com/a330202207/psychology-healthy-api/internal/model"
 )
 
 // RuleEditReq .
@@ -40,12 +42,17 @@ type RuleDelRes struct {
 // RuleListReq .
 type RuleListReq struct {
 	g.Meta `path:"/rule/list" method:"get" tag:"ruleService" summary:"角色列表" tags:"角色列表"`
+	ID     int64  `json:"id"`
+	Name   string `json:"name" v:"required#角色名称不能为空" dc:"角色名称"`
+	Status uint   `json:"status" v:"required#角色状态不能为空" dc:"角色状态：10-开启，20-关闭"`
+	PageBaseInfo
 }
 
 // RuleListRes .
 type RuleListRes struct {
 	g.Meta   `mime:"application/json"`
-	PageInfo *PageInfo `json:"pageInfo"`
+	Rules    []*model.RuleItem `json:"list"`
+	PageInfo *PageInfo         `json:"pageInfo"`
 }
 
 // RuleGetReq .
@@ -66,4 +73,5 @@ type RuleGetAllReq struct {
 // RuleGetAllRes .
 type RuleGetAllRes struct {
 	g.Meta `mime:"application/json"`
+	Rules  []*model.RuleItem `json:"list"`
 }

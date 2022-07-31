@@ -44,11 +44,30 @@ func (c *cRule) Del(ctx context.Context, input *v1.RuleDelReq) (res *v1.RuleDelR
 
 // List 角色列表
 func (c *cRule) List(ctx context.Context, input *v1.RuleListReq) (res *v1.RuleListRes, err error) {
+	out, err := service.Rule().List(ctx, &model.RuleListInput{
+		ID:       input.ID,
+		Name:     input.Name,
+		Status:   input.Status,
+		Page:     input.Page,
+		PageSize: input.PageSize,
+	})
+	if err != nil {
+		return
+	}
+
+	res.Rules = out.List
+	res.PageInfo.Page = out.Page
+	res.PageInfo.PageSize = out.PageSize
+	res.PageInfo.Total = out.Total
+
 	return
 }
 
 // GetAll 获取所有角色
 func (c *cRule) GetAll(ctx context.Context, input *v1.RuleGetAllReq) (res *v1.RuleGetAllRes, err error) {
+	if res.Rules, err = service.Rule().GetAll(ctx); err != nil {
+		return
+	}
 	return
 }
 

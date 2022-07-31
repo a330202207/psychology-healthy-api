@@ -17,12 +17,12 @@ type PageReq struct {
 
 // PageBaseInfo .
 type PageBaseInfo struct {
-	Page     uint `json:"page"` // 目标页
-	PageSize uint `json:"pageSize"`
+	Page     int `json:"page"  d:"1"  v:"min:0#分页号码错误"     dc:"分页号码，默认1"`
+	PageSize int `json:"pageSize"  d:"20" v:"max:50#分页数量最大50条" dc:"分页数量，最大50`
 }
 
 // PageInfo .
 type PageInfo struct {
 	PageBaseInfo
-	Total uint `json:"total"`
+	Total int `json:"total" dc:"总数"` // 总数
 }

@@ -13,6 +13,8 @@ import (
 type IRule interface {
 	Edit(ctx context.Context, in *model.RuleEditInput) (err error)
 	Del(ctx context.Context, in *model.RuleBaseInput) (err error)
+	List(ctx context.Context, in *model.RuleListInput) (out *model.RuleListOut, err error)
+	GetAll(ctx context.Context) (out []*model.RuleItem, err error)
 }
 
 var localRule IRule
