@@ -38,3 +38,15 @@ type ContextUser struct {
 	Expires    int64  `json:"expires"`     // 登录有效期
 	App        string `json:"app"`         // 登录应用
 }
+
+// PageBaseInfo .
+type PageBaseInfo struct {
+	Page     int `json:"page"  d:"1"  v:"min:0#分页号码错误"     dc:"分页号码，默认1"`
+	PageSize int `json:"pageSize"  d:"20" v:"max:50#分页数量最大50条" dc:"分页数量，最大50"`
+}
+
+// PageInfo .
+type PageInfo struct {
+	PageBaseInfo
+	Total int `json:"total"` // 数据总数
+}

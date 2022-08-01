@@ -55,6 +55,24 @@ func (c *cMenu) Del(ctx context.Context, input *v1.MenuDelReq) (res *v1.MenuDelR
 
 // List 菜单列表
 func (c *cMenu) List(ctx context.Context, input *v1.MenuListReq) (res *v1.MenuListRes, err error) {
+	out, err := service.Menu().List(ctx, &model.MenuListInput{
+		Name:   input.Name,
+		Status: input.Status,
+		Type:   input.Type,
+		PageBaseInfo: model.PageBaseInfo{
+			Page:     input.Page,
+			PageSize: input.PageSize,
+		},
+	})
+	if err != nil {
+		return
+	}
+
+	res.Menus = out.List
+	res.PageInfo.Page = out.Page
+	res.PageInfo.PageSize = out.PageSize
+	res.PageInfo.Total = out.Total
+
 	return
 }
 

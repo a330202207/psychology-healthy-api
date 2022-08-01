@@ -53,12 +53,17 @@ type MenuDelRes struct {
 // MenuListReq .
 type MenuListReq struct {
 	g.Meta `path:"/menu/list" method:"get" tag:"menuService" summary:"菜单列表" tags:"菜单列表"`
+	Name   string `json:"name" dc:"菜单名称"`
+	Status uint   `json:"status" dc:"菜单状态：10-开启，20-关闭"`
+	Type   uint   `json:"type" dc:"菜单类型：1-目录，2-菜单，3-按钮"`
+	PageBaseInfo
 }
 
 // MenuListRes .
 type MenuListRes struct {
 	g.Meta   `mime:"application/json"`
-	PageInfo *PageInfo `json:"pageInfo"`
+	Menus    []*model.MenuItem `json:"list"`
+	PageInfo *PageInfo         `json:"pageInfo"`
 }
 
 // MenuGetReq .

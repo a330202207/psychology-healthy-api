@@ -27,11 +27,10 @@ type RuleBaseInput struct {
 
 // RuleListInput .
 type RuleListInput struct {
-	ID       int64
-	Name     string // 角色名称
-	Status   uint   // 状态:10-正常，20-关闭，30-待验证
-	Page     int    `json:"page"`     // 分页码
-	PageSize int    `json:"pageSize"` // 分页数量
+	ID     int64
+	Name   string // 角色名称
+	Status uint   // 状态:10-正常，20-关闭，30-待验证
+	PageBaseInfo
 }
 
 // RuleItem .
@@ -41,8 +40,6 @@ type RuleItem struct {
 
 // RuleListOut .
 type RuleListOut struct {
-	List     []*RuleItem
-	Page     int `json:"page"`     // 分页码
-	PageSize int `json:"pageSize"` // 分页数量
-	Total    int `json:"total"`    // 数据总数
+	List []*RuleItem
+	PageInfo
 }

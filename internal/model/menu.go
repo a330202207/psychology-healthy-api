@@ -33,10 +33,21 @@ type MenuEditInput struct {
 
 // MenuListInput .
 type MenuListInput struct {
+	Name   string
+	Status uint
+	Type   uint
+	PageBaseInfo
+}
+
+// MenuItem .
+type MenuItem struct {
+	*entity.SysMenu
 }
 
 // MenuListOut .
 type MenuListOut struct {
+	List []*MenuItem
+	PageInfo
 }
 
 // MenuBaseInput .

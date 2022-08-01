@@ -123,7 +123,6 @@ func (s *sMenu) Get(ctx context.Context, in *model.MenuBaseInput) (res []*model.
 	ctx, span := gtrace.NewSpan(ctx, "tracing-service-menu-Get")
 	defer span.End()
 	return
-
 }
 
 // GetAll 菜单列表
@@ -142,6 +141,43 @@ func (s *sMenu) GetAll(ctx context.Context) (res []*model.MenuTree, err error) {
 	}
 
 	res = dao.SysMenu.GenTreeList(ctx, 0, list)
+
+	return
+}
+
+// List 菜单列表
+func (s *sMenu) List(ctx context.Context, in *model.MenuListInput) (out *model.MenuListOut, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-menu-List")
+	defer span.End()
+	var logger = gconv.String(ctx.Value("logger"))
+
+	m := dao.SysMenu.Ctx(ctx)
+
+	if in.Name != "" {
+		m.Where("name like ?", "%"+in.Name+"%")
+	}
+
+	if in.Status > 0 {
+		m.Where("status = ?", in.Status)
+	}
+
+	if in.Type > 0 {
+		m.Where("type = ?", in.Type)
+	}
+
+	out.Total, err = m.Count()
+	if err != nil {
+		g.Log(logger).Error(ctx, "service Menu list count error:", err.Error())
+		err = errors.New("获取菜单数据失败[01]")
+		return
+	}
+	out.Page = in.Page
+	out.PageSize = in.PageSize
+	if err = m.Page(in.Page, in.PageSize).Order("sort asc,id asc").Scan(&out.List); err != nil {
+		g.Log(logger).Error(ctx, "service Menu list scan error:", err.Error())
+		err = errors.New("获取菜单数据失败[02]")
+		return
+	}
 
 	return
 }

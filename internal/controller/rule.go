@@ -45,11 +45,13 @@ func (c *cRule) Del(ctx context.Context, input *v1.RuleDelReq) (res *v1.RuleDelR
 // List 角色列表
 func (c *cRule) List(ctx context.Context, input *v1.RuleListReq) (res *v1.RuleListRes, err error) {
 	out, err := service.Rule().List(ctx, &model.RuleListInput{
-		ID:       input.ID,
-		Name:     input.Name,
-		Status:   input.Status,
-		Page:     input.Page,
-		PageSize: input.PageSize,
+		ID:     input.ID,
+		Name:   input.Name,
+		Status: input.Status,
+		PageBaseInfo: model.PageBaseInfo{
+			Page:     input.Page,
+			PageSize: input.PageSize,
+		},
 	})
 	if err != nil {
 		return
