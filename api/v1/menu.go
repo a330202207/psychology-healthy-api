@@ -15,8 +15,8 @@ import (
 
 // MenuEditReq .
 type MenuEditReq struct {
-	g.Meta    `path:"/menu/edit" method:"post" tag:"menuService" summary:"添加/编辑菜单" tags:"添加/编辑菜单"`
-	ID        int64  `v:"required#菜单ID不能为空" json:"id" dc:"菜单ID"`
+	g.Meta    `path:"/menu/edit" method:"post" summary:"添加/编辑菜单" tags:"菜单管理"`
+	ID        int64  `json:"id" dc:"菜单ID"`
 	Name      string `v:"required#菜单名称不能为空" json:"name" dc:"菜单名称"`
 	Icon      string `json:"icon" dc:"菜单图标"`
 	Code      string `v:"required#菜单编码不能为空" json:"code" dc:"菜单编码"`
@@ -41,7 +41,7 @@ type MenuEditRes struct {
 
 // MenuDelReq .
 type MenuDelReq struct {
-	g.Meta `path:"/menu/del" method:"post" tag:"menuService" summary:"删除菜单" tags:"删除菜单"`
+	g.Meta `path:"/menu/del" method:"post" summary:"删除菜单" tags:"菜单管理"`
 	ID     int64 `v:"required#菜单ID不能为空" json:"id"`
 }
 
@@ -52,7 +52,7 @@ type MenuDelRes struct {
 
 // MenuListReq .
 type MenuListReq struct {
-	g.Meta `path:"/menu/list" method:"get" tag:"menuService" summary:"菜单列表" tags:"菜单列表"`
+	g.Meta `path:"/menu/list" method:"get" summary:"菜单列表" tags:"菜单管理"`
 	Name   string `json:"name" dc:"菜单名称"`
 	Status uint   `json:"status" dc:"菜单状态：10-开启，20-关闭"`
 	Type   uint   `json:"type" dc:"菜单类型：1-目录，2-菜单，3-按钮"`
@@ -68,7 +68,7 @@ type MenuListRes struct {
 
 // MenuGetReq .
 type MenuGetReq struct {
-	g.Meta `path:"/menu/get" method:"get" tag:"menuService" summary:"获取菜单信息" tags:"获取菜单信息"`
+	g.Meta `path:"/menu/get" method:"get" summary:"获取菜单信息" tags:"菜单管理"`
 	ID     int64 `v:"required#菜单ID不能为空" json:"id"`
 }
 
@@ -95,7 +95,7 @@ type MenuGetRes struct {
 
 // MenuGetAllReq .
 type MenuGetAllReq struct {
-	g.Meta `path:"/menu/getAll" method:"get" tag:"menuService" summary:"获取所有菜单" tags:"获取所有菜单"`
+	g.Meta `path:"/menu/getAll" method:"get" summary:"获取所有菜单" tags:"菜单管理"`
 }
 
 // MenuGetAllRes .

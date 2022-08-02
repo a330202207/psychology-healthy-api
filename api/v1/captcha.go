@@ -13,7 +13,7 @@ import (
 
 // CaptchaReq .
 type CaptchaReq struct {
-	g.Meta `path:"/captcha" method:"get" tags:"工具" summary:"获取验证码" dc:"注意直接返回的是图片二进制内容"`
+	g.Meta `path:"/captcha" method:"get" summary:"获取验证码" dc:"注意直接返回的是图片二进制内容" tags:"公共" `
 }
 
 // CaptchaRes .

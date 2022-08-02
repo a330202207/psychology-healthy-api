@@ -19,7 +19,7 @@ type Base struct {
 
 // AuthReq .
 type AuthReq struct {
-	g.Meta     `path:"/member/auth" method:"post" tag:"authService" summary:"授权" tags:"授权服务"`
+	g.Meta     `path:"/member/auth" method:"post" summary:"授权" tags:"授权服务"`
 	Account    string `v:"required#登陆用户名不能为空" json:"account" dc:"登陆用户名"`
 	Passwd     string `v:"required|length:4,20#登陆密码(手机验证码)不能为空|登陆密码(手机验证码)长度应当在4到20之间" json:"passwd" dc:"登陆密码(手机验证码)"`
 	AuthType   string `v:"required|in:code,account#登陆类型不能为空" json:"authType" dc:"登陆类型"`
