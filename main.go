@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/v2/os/gctx"
 
 	"github.com/a330202207/psychology-healthy-api/internal/cmd"
+	_ "github.com/a330202207/psychology-healthy-api/internal/logic"
 	"github.com/a330202207/psychology-healthy-api/utility/env"
 	"github.com/a330202207/psychology-healthy-api/utility/tracing"
 )
