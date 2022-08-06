@@ -45,7 +45,7 @@ var sysConfigColumns = SysConfigColumns{
 // NewSysConfigDao creates and returns a new DAO object for table data access.
 func NewSysConfigDao() *SysConfigDao {
 	return &SysConfigDao{
-		group:   "-t",
+		group:   "default",
 		table:   "sys_config",
 		columns: sysConfigColumns,
 	}

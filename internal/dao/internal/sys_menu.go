@@ -65,7 +65,7 @@ var sysMenuColumns = SysMenuColumns{
 // NewSysMenuDao creates and returns a new DAO object for table data access.
 func NewSysMenuDao() *SysMenuDao {
 	return &SysMenuDao{
-		group:   "-t",
+		group:   "default",
 		table:   "sys_menu",
 		columns: sysMenuColumns,
 	}

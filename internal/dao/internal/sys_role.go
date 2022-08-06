@@ -20,32 +20,30 @@ type SysRoleDao struct {
 
 // SysRoleColumns defines and stores column names for table sys_role.
 type SysRoleColumns struct {
-	Id                string // 角色ID
-	Name              string // 角色名称
-	Key               string // 角色权限字符串
-	MenuCheckStrictly string // 菜单树选择项是否关联显示：10-显示，20-隐藏
-	Sort              string // 排序
-	Status            string // 角色状态：10-开启，20-关闭
-	CreatedAt         string // 创建时间
-	UpdatedAt         string // 更新时间
+	Id        string // 角色ID
+	Name      string // 角色名称
+	Key       string // 角色权限字符串
+	Sort      string // 排序
+	Status    string // 角色状态：10-开启，20-关闭
+	CreatedAt string // 创建时间
+	UpdatedAt string // 更新时间
 }
 
 //  sysRoleColumns holds the columns for table sys_role.
 var sysRoleColumns = SysRoleColumns{
-	Id:                "id",
-	Name:              "name",
-	Key:               "key",
-	MenuCheckStrictly: "menu_check_strictly",
-	Sort:              "sort",
-	Status:            "status",
-	CreatedAt:         "created_at",
-	UpdatedAt:         "updated_at",
+	Id:        "id",
+	Name:      "name",
+	Key:       "key",
+	Sort:      "sort",
+	Status:    "status",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
 }
 
 // NewSysRoleDao creates and returns a new DAO object for table data access.
 func NewSysRoleDao() *SysRoleDao {
 	return &SysRoleDao{
-		group:   "-t",
+		group:   "default",
 		table:   "sys_role",
 		columns: sysRoleColumns,
 	}

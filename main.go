@@ -4,6 +4,8 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
 
+	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
+
 	"github.com/a330202207/psychology-healthy-api/internal/cmd"
 	_ "github.com/a330202207/psychology-healthy-api/internal/logic"
 	"github.com/a330202207/psychology-healthy-api/utility/env"

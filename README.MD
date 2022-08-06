@@ -31,7 +31,7 @@
 
 ```
 # 代码生成dao
-gf gen dao -p ./internal/ -c ./hack/config.yaml -g -t
+gf gen dao -p ./internal/ -c ./hack/config.yaml -g 
 
 # 生成service
 gf gen service

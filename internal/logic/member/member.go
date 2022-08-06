@@ -11,6 +11,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/gtrace"
@@ -95,7 +96,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	// 更新角色
 	if err = dao.SysMemberRole.UpdateMemberRoleByIds(ctx, in.ID, in.RuleIds, tx); err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit update UpdateMemberRoleByIds error:", err.Error())
-		err = errors.New("操作失败[006]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[006]")
 		return
 	}
 

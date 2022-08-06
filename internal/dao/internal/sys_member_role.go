@@ -33,7 +33,7 @@ var sysMemberRoleColumns = SysMemberRoleColumns{
 // NewSysMemberRoleDao creates and returns a new DAO object for table data access.
 func NewSysMemberRoleDao() *SysMemberRoleDao {
 	return &SysMemberRoleDao{
-		group:   "-t",
+		group:   "default",
 		table:   "sys_member_role",
 		columns: sysMemberRoleColumns,
 	}

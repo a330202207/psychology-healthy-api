@@ -10,27 +10,24 @@ import (
 
 // SysMember is the golang structure for table sys_member.
 type SysMember struct {
-	Id                 int64       `json:"id"                 description:""`
-	Username           string      `json:"username"           description:"帐号"`
-	Password           string      `json:"password"           description:"密码"`
-	Salt               string      `json:"salt"               description:"密码盐"`
-	AuthKey            string      `json:"authKey"            description:"授权令牌"`
-	PasswordResetToken string      `json:"passwordResetToken" description:"密码重置令牌"`
-	Type               int         `json:"type"               description:"账户类型：1-普通管理员，10-超级管理员"`
-	NickName           string      `json:"nickName"           description:"昵称"`
-	Avatar             string      `json:"avatar"             description:"头像"`
-	Sex                int         `json:"sex"                description:"性别：0-未知，1-男，2-女"`
-	Email              string      `json:"email"              description:"邮箱"`
-	Birthday           *gtime.Time `json:"birthday"           description:"生日"`
-	ProvinceId         int         `json:"provinceId"         description:"省"`
-	CityId             int         `json:"cityId"             description:"城市"`
-	AreaId             int         `json:"areaId"             description:"地区"`
-	Address            string      `json:"address"            description:"默认地址"`
-	Mobile             string      `json:"mobile"             description:"手机号码"`
-	VisitCount         uint        `json:"visitCount"         description:"访问次数"`
-	LastAt             *gtime.Time `json:"lastAt"             description:"最后登录时间"`
-	LastIp             string      `json:"lastIp"             description:"最后一次登录ip"`
-	Status             int         `json:"status"             description:"状态:10-正常，20-关闭，30-待验证"`
-	CreatedAt          *gtime.Time `json:"createdAt"          description:"创建时间"`
-	UpdatedAt          *gtime.Time `json:"updatedAt"          description:"修改时间"`
+	Id         int64       `json:"id"         description:""`
+	Username   string      `json:"username"   description:"帐号"`
+	Password   string      `json:"password"   description:"密码"`
+	Type       int         `json:"type"       description:"账户类型:1-普通管理员，10-超级管理员"`
+	NickName   string      `json:"nickName"   description:"昵称"`
+	Avatar     string      `json:"avatar"     description:"头像"`
+	Sex        int         `json:"sex"        description:"性别:0-未知，1-男，2-女"`
+	Email      string      `json:"email"      description:"邮箱"`
+	Birthday   *gtime.Time `json:"birthday"   description:"生日"`
+	ProvinceId int         `json:"provinceId" description:"省"`
+	CityId     int         `json:"cityId"     description:"城市"`
+	AreaId     int         `json:"areaId"     description:"地区"`
+	Address    string      `json:"address"    description:"默认地址"`
+	Mobile     string      `json:"mobile"     description:"手机号码"`
+	VisitCount uint        `json:"visitCount" description:"访问次数"`
+	LastAt     *gtime.Time `json:"lastAt"     description:"最后登录时间"`
+	LastIp     string      `json:"lastIp"     description:"最后一次登录ip"`
+	Status     int         `json:"status"     description:"状态:10-正常，20-关闭，30-待验证"`
+	CreatedAt  *gtime.Time `json:"createdAt"  description:"创建时间"`
+	UpdatedAt  *gtime.Time `json:"updatedAt"  description:"修改时间"`
 }

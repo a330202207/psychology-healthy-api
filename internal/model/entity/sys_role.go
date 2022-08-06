@@ -10,12 +10,11 @@ import (
 
 // SysRole is the golang structure for table sys_role.
 type SysRole struct {
-	Id                int64       `json:"id"                description:"角色ID"`
-	Name              string      `json:"name"              description:"角色名称"`
-	Key               string      `json:"key"               description:"角色权限字符串"`
-	MenuCheckStrictly uint        `json:"menuCheckStrictly" description:"菜单树选择项是否关联显示：10-显示，20-隐藏"`
-	Sort              uint        `json:"sort"              description:"排序"`
-	Status            uint        `json:"status"            description:"角色状态：10-开启，20-关闭"`
-	CreatedAt         *gtime.Time `json:"createdAt"         description:"创建时间"`
-	UpdatedAt         *gtime.Time `json:"updatedAt"         description:"更新时间"`
+	Id        int64       `json:"id"        description:"角色ID"`
+	Name      string      `json:"name"      description:"角色名称"`
+	Key       string      `json:"key"       description:"角色权限字符串"`
+	Sort      uint        `json:"sort"      description:"排序"`
+	Status    uint        `json:"status"    description:"角色状态：10-开启，20-关闭"`
+	CreatedAt *gtime.Time `json:"createdAt" description:"创建时间"`
+	UpdatedAt *gtime.Time `json:"updatedAt" description:"更新时间"`
 }

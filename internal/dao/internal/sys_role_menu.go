@@ -33,7 +33,7 @@ var sysRoleMenuColumns = SysRoleMenuColumns{
 // NewSysRoleMenuDao creates and returns a new DAO object for table data access.
 func NewSysRoleMenuDao() *SysRoleMenuDao {
 	return &SysRoleMenuDao{
-		group:   "-t",
+		group:   "default",
 		table:   "sys_role_menu",
 		columns: sysRoleMenuColumns,
 	}

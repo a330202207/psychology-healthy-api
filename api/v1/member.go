@@ -15,7 +15,7 @@ import (
 
 // MemberEditReq .
 type MemberEditReq struct {
-	g.Meta     `path:"/member/add" method:"post" summary:"添加管理员" tags:"管理员管理"`
+	g.Meta     `path:"/member/edit" method:"post" summary:"添加/编辑管理员" tags:"管理员管理"`
 	ID         int64   `json:"id"`
 	RuleIds    []int64 `json:"ruleIds" v:"required#角色不能为空" dc:"角色ID"`
 	UserName   string  `json:"username" v:"required#用户名不能为空" dc:"用户名"`

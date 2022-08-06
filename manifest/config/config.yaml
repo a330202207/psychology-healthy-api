@@ -10,6 +10,58 @@ app:
   site:           "http://127.0.0.1:8012/"
   roleModel:      ""
 
+server:
+  address:          ":8199"
+  dumpRouterMap:    true
+  routeOverWrite:   true
+  accessLogEnabled: false
+  logPath:          "manifest/logs/server"
+  accessLogPattern: "access-{Ymd}.log"
+  errorLogPattern:  "error-{Ymd}.log"
+  openapiPath:      "/api.json"
+  swaggerPath:      "/swagger"
+
+logger:
+  path:   "manifest/logs/default"
+  level:  "all"
+  stdout: true
+  ctxKeys: [ "TraceID" ]
+  admin:
+    path:   "manifest/logs/admin"
+    level:  "all"
+    stdout: false
+
+# 数据库连接配置
+database:
+  logger:
+    path:   "manifest/logs/sql"
+    level:  "all"
+    stdout: true
+    ctxKeys: [ "TraceID" ]
+
+  default:
+    default:
+    link:        "mysql:root:123456@tcp(127.0.0.1:3306)/psychology_healthy"
+    debug:       true
+    prefix:      "sys_"
+    maxIdle:     10 #连接池最大闲置的连接数
+    maxOpen:     10 #连接池最大打开的连接数
+    maxLifetime: 30 #(单位秒)连接对象可重复使用的时间长度
+
+# Redis 配置示例
+redis:
+  default:
+    address:     127.0.0.1:6379
+    db:          1
+    pass:        123456
+    idleTimeout: 600
+    maxActive:   100
+  cache:
+    address:     127.0.0.1:6379
+    db:          1
+    pass:        123456
+    idleTimeout: 600
+
 # 路由配置
 router:
   # 后台
@@ -37,5 +89,5 @@ router:
 jwt:
   version:   "1.0"                       # 版本号
   expires:   "864000"                    # 有效期，单位：秒
-  sign:      "hotgo"                     # 秘钥
+  sign:      "psychology"                # 秘钥
   multiPort: true                        # 是否允许多端登录，默认为true

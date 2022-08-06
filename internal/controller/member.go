@@ -20,8 +20,8 @@ var Member = cMember{}
 type cMember struct {
 }
 
-// Add 添加管理员
-func (c *cMember) Add(ctx context.Context, input *v1.MemberEditReq) (res *v1.MemberEditRes, err error) {
+// Edit 添加管理员
+func (c *cMember) Edit(ctx context.Context, input *v1.MemberEditReq) (res *v1.MemberEditRes, err error) {
 	if err = service.Member().Edit(ctx, &model.MemberEditInput{
 		ID:         input.ID,
 		RuleIds:    input.RuleIds,

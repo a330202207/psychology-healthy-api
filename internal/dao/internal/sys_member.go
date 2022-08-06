@@ -20,62 +20,56 @@ type SysMemberDao struct {
 
 // SysMemberColumns defines and stores column names for table sys_member.
 type SysMemberColumns struct {
-	Id                 string //
-	Username           string // 帐号
-	Password           string // 密码
-	Salt               string // 密码盐
-	AuthKey            string // 授权令牌
-	PasswordResetToken string // 密码重置令牌
-	Type               string // 账户类型：1-普通管理员，10-超级管理员
-	NickName           string // 昵称
-	Avatar             string // 头像
-	Sex                string // 性别：0-未知，1-男，2-女
-	Email              string // 邮箱
-	Birthday           string // 生日
-	ProvinceId         string // 省
-	CityId             string // 城市
-	AreaId             string // 地区
-	Address            string // 默认地址
-	Mobile             string // 手机号码
-	VisitCount         string // 访问次数
-	LastAt             string // 最后登录时间
-	LastIp             string // 最后一次登录ip
-	Status             string // 状态:10-正常，20-关闭，30-待验证
-	CreatedAt          string // 创建时间
-	UpdatedAt          string // 修改时间
+	Id         string //
+	Username   string // 帐号
+	Password   string // 密码
+	Type       string // 账户类型:1-普通管理员，10-超级管理员
+	NickName   string // 昵称
+	Avatar     string // 头像
+	Sex        string // 性别:0-未知，1-男，2-女
+	Email      string // 邮箱
+	Birthday   string // 生日
+	ProvinceId string // 省
+	CityId     string // 城市
+	AreaId     string // 地区
+	Address    string // 默认地址
+	Mobile     string // 手机号码
+	VisitCount string // 访问次数
+	LastAt     string // 最后登录时间
+	LastIp     string // 最后一次登录ip
+	Status     string // 状态:10-正常，20-关闭，30-待验证
+	CreatedAt  string // 创建时间
+	UpdatedAt  string // 修改时间
 }
 
 //  sysMemberColumns holds the columns for table sys_member.
 var sysMemberColumns = SysMemberColumns{
-	Id:                 "id",
-	Username:           "username",
-	Password:           "password",
-	Salt:               "salt",
-	AuthKey:            "auth_key",
-	PasswordResetToken: "password_reset_token",
-	Type:               "type",
-	NickName:           "nick_name",
-	Avatar:             "avatar",
-	Sex:                "sex",
-	Email:              "email",
-	Birthday:           "birthday",
-	ProvinceId:         "province_id",
-	CityId:             "city_id",
-	AreaId:             "area_id",
-	Address:            "address",
-	Mobile:             "mobile",
-	VisitCount:         "visit_count",
-	LastAt:             "last_at",
-	LastIp:             "last_ip",
-	Status:             "status",
-	CreatedAt:          "created_at",
-	UpdatedAt:          "updated_at",
+	Id:         "id",
+	Username:   "username",
+	Password:   "password",
+	Type:       "type",
+	NickName:   "nick_name",
+	Avatar:     "avatar",
+	Sex:        "sex",
+	Email:      "email",
+	Birthday:   "birthday",
+	ProvinceId: "province_id",
+	CityId:     "city_id",
+	AreaId:     "area_id",
+	Address:    "address",
+	Mobile:     "mobile",
+	VisitCount: "visit_count",
+	LastAt:     "last_at",
+	LastIp:     "last_ip",
+	Status:     "status",
+	CreatedAt:  "created_at",
+	UpdatedAt:  "updated_at",
 }
 
 // NewSysMemberDao creates and returns a new DAO object for table data access.
 func NewSysMemberDao() *SysMemberDao {
 	return &SysMemberDao{
-		group:   "-t",
+		group:   "default",
 		table:   "sys_member",
 		columns: sysMemberColumns,
 	}

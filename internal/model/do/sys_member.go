@@ -11,28 +11,25 @@ import (
 
 // SysMember is the golang structure of table sys_member for DAO operations like Where/Data.
 type SysMember struct {
-	g.Meta             `orm:"table:sys_member, do:true"`
-	Id                 interface{} //
-	Username           interface{} // 帐号
-	Password           interface{} // 密码
-	Salt               interface{} // 密码盐
-	AuthKey            interface{} // 授权令牌
-	PasswordResetToken interface{} // 密码重置令牌
-	Type               interface{} // 账户类型：1-普通管理员，10-超级管理员
-	NickName           interface{} // 昵称
-	Avatar             interface{} // 头像
-	Sex                interface{} // 性别：0-未知，1-男，2-女
-	Email              interface{} // 邮箱
-	Birthday           *gtime.Time // 生日
-	ProvinceId         interface{} // 省
-	CityId             interface{} // 城市
-	AreaId             interface{} // 地区
-	Address            interface{} // 默认地址
-	Mobile             interface{} // 手机号码
-	VisitCount         interface{} // 访问次数
-	LastAt             *gtime.Time // 最后登录时间
-	LastIp             interface{} // 最后一次登录ip
-	Status             interface{} // 状态:10-正常，20-关闭，30-待验证
-	CreatedAt          *gtime.Time // 创建时间
-	UpdatedAt          *gtime.Time // 修改时间
+	g.Meta     `orm:"table:sys_member, do:true"`
+	Id         interface{} //
+	Username   interface{} // 帐号
+	Password   interface{} // 密码
+	Type       interface{} // 账户类型:1-普通管理员，10-超级管理员
+	NickName   interface{} // 昵称
+	Avatar     interface{} // 头像
+	Sex        interface{} // 性别:0-未知，1-男，2-女
+	Email      interface{} // 邮箱
+	Birthday   *gtime.Time // 生日
+	ProvinceId interface{} // 省
+	CityId     interface{} // 城市
+	AreaId     interface{} // 地区
+	Address    interface{} // 默认地址
+	Mobile     interface{} // 手机号码
+	VisitCount interface{} // 访问次数
+	LastAt     *gtime.Time // 最后登录时间
+	LastIp     interface{} // 最后一次登录ip
+	Status     interface{} // 状态:10-正常，20-关闭，30-待验证
+	CreatedAt  *gtime.Time // 创建时间
+	UpdatedAt  *gtime.Time // 修改时间
 }
