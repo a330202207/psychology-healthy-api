@@ -9,7 +9,6 @@ package member
 
 import (
 	"context"
-	"errors"
 
 	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
@@ -43,18 +42,19 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	ok, err := dao.SysMember.IsUniqueName(ctx, in.ID, in.UserName)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit sql error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[001]")
 		return err
 	}
 
 	if !ok {
-		err = gerror.New("帐号已存在")
+		err = gerror.NewCode(gcode.New(500, "", nil), "帐号已存在")
 		return err
 	}
 
 	passWd, err := service.Auth().EncryptPass(in.Passwd)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member EncryptPass error:", err.Error())
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[002]")
 		return err
 	}
 
@@ -63,7 +63,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit Transaction error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[003]")
 		return err
 	}
 
@@ -80,7 +80,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 		// 更新用户
 		if _, err = dao.SysMember.Ctx(ctx).TX(tx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
 			g.Log(logger).Error(ctx, "service Member Edit update mysql error:", err.Error())
-			err = errors.New("操作失败[003]")
+			err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[004]")
 			return
 		}
 	} else {
@@ -88,7 +88,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 		in.ID, err = dao.SysMember.Ctx(ctx).TX(tx).OmitEmpty().InsertAndGetId(in)
 		if err != nil {
 			g.Log(logger).Error(ctx, "service Member Edit insert mysql error:", err.Error())
-			err = errors.New("操作失败[004]")
+			err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[005]")
 			return
 		}
 	}
@@ -96,7 +96,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	// 更新角色
 	if err = dao.SysMemberRole.UpdateMemberRoleByIds(ctx, in.ID, in.RuleIds, tx); err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit update UpdateMemberRoleByIds error:", err.Error())
-		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[006]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[06]")
 		return
 	}
 
@@ -112,26 +112,26 @@ func (s *sMember) UpdatePassWd(ctx context.Context, in *model.MemberUpdatePassWd
 	ok, err := dao.SysMember.IsUniqueMember(ctx, in.ID)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member UpdatePassWd update rule error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return err
 	}
 
 	if !ok {
 		g.Log(logger).Error(ctx, "service Member UpdatePassWd member does not exist")
-		err = errors.New("用户不存在")
+		err = gerror.NewCode(gcode.New(500, "", nil), "用户不存在")
 		return err
 	}
 	passwd, err := service.Auth().EncryptPass(in.Passwd)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member UpdatePassWd EncryptPass error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return err
 	}
 	if _, err = dao.SysMember.Ctx(ctx).Where("id", in.ID).Update(g.Map{
 		"password": string(passwd),
 	}); err != nil {
 		g.Log(logger).Error(ctx, "service Member UpdatePassWd error:", err.Error())
-		err = errors.New("操作失败[003]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return
 	}
 
@@ -147,20 +147,20 @@ func (s *sMember) Del(ctx context.Context, in *model.MemberBaseInput) (err error
 	ok, err := dao.SysMember.IsUniqueMember(ctx, in.ID)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member IsUniqueMember error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return err
 	}
 
 	if !ok {
 		g.Log(logger).Error(ctx, "service Member UpdatePassWd member does not exist")
-		err = errors.New("用户不存在")
+		err = gerror.NewCode(gcode.New(500, "", nil), "用户不存在")
 		return err
 	}
 
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit Transaction error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return err
 	}
 
@@ -174,13 +174,13 @@ func (s *sMember) Del(ctx context.Context, in *model.MemberBaseInput) (err error
 
 	if _, err = dao.SysMember.Ctx(ctx).Delete("id", in.ID); err != nil {
 		g.Log(logger).Error(ctx, "service Member Del error:", err.Error())
-		err = errors.New("操作失败[003]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return
 	}
 
 	if _, err = dao.SysMemberRole.Ctx(ctx).Delete("member_id", in.ID); err != nil {
 		g.Log(logger).Error(ctx, "service MemberRole Del error:", err.Error())
-		err = errors.New("操作失败[004]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[04]")
 		return
 	}
 
@@ -205,13 +205,13 @@ func (s *sMember) ResetPassWd(ctx context.Context, in *model.MemberResetPassWdIn
 	v, err := g.Redis(conn).Do(ctx, "GET", key+in.Account)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member ResetPassWd redis error:", err.Error())
-		err = errors.New("重置密码错误(001)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return
 	}
 
 	if v.IsNil() || v.IsEmpty() || v.String() != in.VerifyCode {
 		g.Log(logger).Error(ctx, "service Member ResetPassWd VerifyCode error")
-		err = errors.New("验证码错误")
+		err = gerror.NewCode(gcode.New(500, "", nil), "验证码错误")
 		return
 	}
 
@@ -227,7 +227,7 @@ func (s *sMember) ResetPassWd(ctx context.Context, in *model.MemberResetPassWdIn
 	passwd, err := service.Auth().EncryptPass(in.Passwd)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Member ResetPassWd EncryptPass error:", err.Error())
-		err = errors.New("重置密码错误(002)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return
 	}
 
@@ -235,7 +235,7 @@ func (s *sMember) ResetPassWd(ctx context.Context, in *model.MemberResetPassWdIn
 		"password": string(passwd),
 	}); err != nil {
 		g.Log(logger).Error(ctx, "service Member ResetPassWd error:", err.Error())
-		err = errors.New("重置密码错误(003)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return
 	}
 

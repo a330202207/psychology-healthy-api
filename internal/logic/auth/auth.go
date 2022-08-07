@@ -9,10 +9,10 @@ package auth
 
 import (
 	"context"
-	"errors"
 
 	"github.com/gogf/gf/v2/crypto/gmd5"
 	"github.com/gogf/gf/v2/database/gdb"
+	"github.com/gogf/gf/v2/errors/gcode"
 	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/gtrace"
@@ -60,7 +60,7 @@ func (s *sAuth) Authorization(ctx context.Context, in *model.AuthInput) (*model.
 	} else {
 		if !service.Captcha().VerifyCode(ctx, in.VerifyKey, in.VerifyCode) {
 			g.Log(logger).Error(ctx, "service Authorization VerifyCode error:", err.Error())
-			err = gerror.New("验证码输入错误")
+			err = gerror.NewCode(gcode.New(500, "", nil), "验证码输入错误")
 			return nil, err
 		}
 	}
@@ -79,31 +79,34 @@ func (s *sAuth) Authorization(ctx context.Context, in *model.AuthInput) (*model.
 	token, err := jwt.Jwt().GenerateToken(ctx, user, false)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Authorization buildToken error:", err.Error())
+		err = gerror.NewCode(gcode.New(500, "", nil), "验证码输入错误")
 		return nil, err
 	}
 	authKey := gmd5.MustEncryptString(token)
 	if err = s.updateLoginInfo(ctx, authKey); err != nil {
 		g.Log(logger).Error(ctx, "service Authorization updateLoginInfo error:", err.Error())
+		err = gerror.NewCode(gcode.New(500, "", nil), "登陆失败(05)")
 		return nil, err
 	}
 
 	out.Token = token
-
 	return out, err
 }
 
 // checkAuthCode 验证登陆短信码
-func (s *sAuth) checkAuthCode(ctx context.Context, in *model.AuthInput) error {
+func (s *sAuth) checkAuthCode(ctx context.Context, in *model.AuthInput) (err error) {
 	ctx, span := gtrace.NewSpan(ctx, "tracing-service-auth-getAuthCode")
 	defer span.End()
 	conn := cache.RedisCache().DefaultConnection()
 	v, err := g.Redis(conn).Do(ctx, "GET", cache.RedisCache().MemberLoginCode()+in.Account)
 	if err != nil {
-		return errors.New("登陆失败(001)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "登陆失败[01]")
+		return
 	}
 
 	if v.IsNil() || v.IsEmpty() || v.String() != in.VerifyCode {
-		return errors.New("登陆失败(002)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "登陆失败[02]")
+		return err
 	}
 	return nil
 }
@@ -115,22 +118,22 @@ func (s *sAuth) getMemberInfo(ctx context.Context, in *model.AuthInput) (user *m
 
 	var member *entity.SysMember
 	if err = dao.SysMember.Ctx(ctx).Scan(&member, "account = ?", in.Account); err != nil {
-		err = errors.New("登陆失败(003)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "登陆失败[03]")
 		return
 	}
 
 	if member == nil {
-		err = errors.New("登陆失败(004)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "登陆失败[04]")
 		return
 	}
 
 	if member.Status != 20 {
-		err = errors.New("帐号状态异常，请联系管理员(001)")
+		err = gerror.NewCode(gcode.New(500, "", nil), "帐号状态异常，请联系管理员[01]")
 		return
 	}
 
 	if in.AuthType == "account" && !s.compareHashAndPassword(in.Passwd, member.Password) {
-		err = errors.New("密码错误")
+		err = gerror.NewCode(gcode.New(500, "", nil), "密码错误)")
 		return
 	}
 

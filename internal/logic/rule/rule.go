@@ -9,8 +9,9 @@ package rule
 
 import (
 	"context"
-	"errors"
 
+	"github.com/gogf/gf/v2/errors/gcode"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/gtrace"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -40,20 +41,20 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 	ok, err := dao.SysRole.IsUniqueName(ctx, in.Name)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Rule EditIsUniqueName error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return err
 	}
 
 	if ok {
 		g.Log(logger).Error(ctx, "service Rule name exist")
-		err = errors.New("角色名称已存在")
+		err = gerror.NewCode(gcode.New(500, "", nil), "角色名称已存在")
 		return err
 	}
 
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Rule Del Transaction error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return err
 	}
 
@@ -69,21 +70,21 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 	if in.ID > 0 {
 		if _, err = dao.SysRole.Ctx(ctx).TX(tx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
 			g.Log(logger).Error(ctx, "service Rule Edit update mysql error:", err.Error())
-			err = errors.New("操作失败[002]")
+			err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 			return
 		}
 	} else {
 		in.ID, err = dao.SysRole.Ctx(ctx).TX(tx).OmitEmpty().InsertAndGetId(in)
 		if err != nil {
 			g.Log(logger).Error(ctx, "service Rule Edit insert mysql error:", err.Error())
-			err = errors.New("操作失败[003]")
+			err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[04]")
 			return
 		}
 	}
 
 	if err = dao.SysRoleMenu.UpdateRoleMenuByIds(ctx, in.ID, in.MenuIds, tx); err != nil {
 		g.Log(logger).Error(ctx, "service Rule Edit update UpdateRoleMenuByIds error:", err.Error())
-		err = errors.New("操作失败[004]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[05]")
 		return
 	}
 
@@ -99,7 +100,7 @@ func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Rule Del Transaction error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return
 	}
 
@@ -113,13 +114,13 @@ func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
 
 	if _, err = dao.SysRole.Ctx(ctx).TX(tx).Delete("id", in.ID); err != nil {
 		g.Log(logger).Error(ctx, "service Rule Del delete mysql error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return
 	}
 
 	if _, err = dao.SysRoleMenu.Ctx(ctx).TX(tx).Delete("role_id", in.ID); err != nil {
 		g.Log(logger).Error(ctx, "service RuleMenu Del delete mysql error:", err.Error())
-		err = errors.New("操作失败[003]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return
 	}
 
@@ -146,7 +147,7 @@ func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.R
 	out.Total, err = m.Count()
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Rule list count error:", err.Error())
-		err = errors.New("获取角色数据失败[01]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "获取角色数据失败[01]")
 		return
 	}
 	out.Page = in.Page
@@ -154,7 +155,7 @@ func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.R
 
 	if err = m.Page(in.Page, in.PageSize).Order("sort asc,id asc").Scan(&out.List); err != nil {
 		g.Log(logger).Error(ctx, "service Rule list scan error:", err.Error())
-		err = errors.New("获取角色数据失败[02]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "获取角色数据失败[02]")
 		return
 	}
 
@@ -169,7 +170,7 @@ func (s sRule) GetAll(ctx context.Context) (out []*model.RuleItem, err error) {
 
 	if err = dao.SysRole.Ctx(ctx).Where("status = 10").Order("sort asc,id asc").Scan(&out); err != nil {
 		g.Log(logger).Error(ctx, "service GetAll list scan error:", err.Error())
-		err = errors.New("获取角色数据失败")
+		err = gerror.NewCode(gcode.New(500, "", nil), "获取角色数据失败")
 		return
 	}
 	return

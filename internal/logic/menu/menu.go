@@ -11,6 +11,8 @@ import (
 	"context"
 	"errors"
 
+	"github.com/gogf/gf/v2/errors/gcode"
+	"github.com/gogf/gf/v2/errors/gerror"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/gtrace"
 	"github.com/gogf/gf/v2/util/gconv"
@@ -41,20 +43,20 @@ func (s *sMenu) Edit(ctx context.Context, in *model.MenuEditInput) (err error) {
 	ok, err := dao.SysMenu.IsUniqueName(ctx, in.Name)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Menu EditIsUniqueName error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败(01)")
 		return err
 	}
 
 	if ok {
 		g.Log(logger).Error(ctx, "service Menu name exist")
-		err = errors.New("菜单名称已存在")
+		err = gerror.NewCode(gcode.New(500, "", nil), "菜单名称已存在")
 		return err
 	}
 
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Menu Del Transaction error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return err
 	}
 
@@ -91,7 +93,7 @@ func (s *sMenu) Del(ctx context.Context, in *model.MenuBaseInput) (err error) {
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Menu Del Transaction error:", err.Error())
-		err = errors.New("操作失败[001]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return err
 	}
 
@@ -105,13 +107,13 @@ func (s *sMenu) Del(ctx context.Context, in *model.MenuBaseInput) (err error) {
 
 	if _, err = dao.SysMenu.Ctx(ctx).TX(tx).Where("id", in.ID).Delete(); err != nil {
 		g.Log(logger).Error(ctx, "service Menu Del error:", err.Error())
-		err = errors.New("操作失败[002]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return err
 	}
 
 	if _, err = dao.SysRoleMenu.Ctx(ctx).TX(tx).Where("menu_id", in.ID).Delete(); err != nil {
 		g.Log(logger).Error(ctx, "service RuleMenu Del error:", err.Error())
-		err = errors.New("操作失败[003]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return err
 	}
 
@@ -137,6 +139,7 @@ func (s *sMenu) GetAll(ctx context.Context) (res []*model.MenuTree, err error) {
 
 	if err = dao.SysMenu.Ctx(ctx).Where("status = ?", 10).Where("is_visible = ?", 20).Scan(&list); err != nil {
 		g.Log(logger).Error(ctx, "service Menu GetAll error:", err.Error())
+		err = gerror.NewCode(gcode.New(500, "", nil), "获取列表失败")
 		return
 	}
 
@@ -168,14 +171,14 @@ func (s *sMenu) List(ctx context.Context, in *model.MenuListInput) (out *model.M
 	out.Total, err = m.Count()
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Menu list count error:", err.Error())
-		err = errors.New("获取菜单数据失败[01]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "获取菜单数据失败[01]")
 		return
 	}
 	out.Page = in.Page
 	out.PageSize = in.PageSize
 	if err = m.Page(in.Page, in.PageSize).Order("sort asc,id asc").Scan(&out.List); err != nil {
 		g.Log(logger).Error(ctx, "service Menu list scan error:", err.Error())
-		err = errors.New("获取菜单数据失败[02]")
+		err = gerror.NewCode(gcode.New(500, "", nil), "获取菜单数据失败[02]")
 		return
 	}
 
