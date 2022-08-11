@@ -5,7 +5,7 @@
 // @Date: 2022/7/14 16:02
 // @Package logic
 
-package rule
+package role
 
 import (
 	"context"
@@ -21,39 +21,39 @@ import (
 	"github.com/a330202207/psychology-healthy-api/internal/service"
 )
 
-type sRule struct {
+type sRole struct {
 }
 
 func init() {
-	service.RegisterRule(New())
+	service.RegisterRole(New())
 }
 
-func New() *sRule {
-	return &sRule{}
+func New() *sRole {
+	return &sRole{}
 }
 
 // Edit 添加/编辑角色
-func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
-	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-Edit")
+func (s *sRole) Edit(ctx context.Context, in *model.RoleEditInput) (err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-role-Edit")
 	defer span.End()
 	var logger = gconv.String(ctx.Value("logger"))
 
 	ok, err := dao.SysRole.IsUniqueName(ctx, in.Name)
 	if err != nil {
-		g.Log(logger).Error(ctx, "service Rule EditIsUniqueName error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role EditIsUniqueName error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return err
 	}
 
 	if ok {
-		g.Log(logger).Error(ctx, "service Rule name exist")
+		g.Log(logger).Error(ctx, "service Role name exist")
 		err = gerror.NewCode(gcode.New(500, "", nil), "角色名称已存在")
 		return err
 	}
 
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
-		g.Log(logger).Error(ctx, "service Rule Del Transaction error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role Del Transaction error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return err
 	}
@@ -69,21 +69,21 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 
 	if in.ID > 0 {
 		if _, err = dao.SysRole.Ctx(ctx).TX(tx).Where("id", in.ID).OmitEmpty().Update(in); err != nil {
-			g.Log(logger).Error(ctx, "service Rule Edit update mysql error:", err.Error())
+			g.Log(logger).Error(ctx, "service Role Edit update mysql error:", err.Error())
 			err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 			return
 		}
 	} else {
 		in.ID, err = dao.SysRole.Ctx(ctx).TX(tx).OmitEmpty().InsertAndGetId(in)
 		if err != nil {
-			g.Log(logger).Error(ctx, "service Rule Edit insert mysql error:", err.Error())
+			g.Log(logger).Error(ctx, "service Role Edit insert mysql error:", err.Error())
 			err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[04]")
 			return
 		}
 	}
 
 	if err = dao.SysRoleMenu.UpdateRoleMenuByIds(ctx, in.ID, in.MenuIds, tx); err != nil {
-		g.Log(logger).Error(ctx, "service Rule Edit update UpdateRoleMenuByIds error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role Edit update UpdateRoleMenuByIds error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[05]")
 		return
 	}
@@ -92,14 +92,14 @@ func (s *sRule) Edit(ctx context.Context, in *model.RuleEditInput) (err error) {
 }
 
 // Del .删除角色
-func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
-	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-Del")
+func (s *sRole) Del(ctx context.Context, in *model.RoleBaseInput) (err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-role-Del")
 	defer span.End()
 	var logger = gconv.String(ctx.Value("logger"))
 
 	tx, err := g.DB().Begin(ctx)
 	if err != nil {
-		g.Log(logger).Error(ctx, "service Rule Del Transaction error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role Del Transaction error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return
 	}
@@ -113,13 +113,13 @@ func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
 	}()
 
 	if _, err = dao.SysRole.Ctx(ctx).TX(tx).Delete("id", in.ID); err != nil {
-		g.Log(logger).Error(ctx, "service Rule Del delete mysql error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role Del delete mysql error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[02]")
 		return
 	}
 
 	if _, err = dao.SysRoleMenu.Ctx(ctx).TX(tx).Delete("role_id", in.ID); err != nil {
-		g.Log(logger).Error(ctx, "service RuleMenu Del delete mysql error:", err.Error())
+		g.Log(logger).Error(ctx, "service RoleMenu Del delete mysql error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return
 	}
@@ -128,8 +128,8 @@ func (s *sRule) Del(ctx context.Context, in *model.RuleBaseInput) (err error) {
 }
 
 // List 获取角色列表
-func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.RuleListOut, err error) {
-	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-list")
+func (s *sRole) List(ctx context.Context, in *model.RoleListInput) (out *model.RoleListOut, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-role-list")
 	defer span.End()
 	var logger = gconv.String(ctx.Value("logger"))
 	m := dao.SysRole.Ctx(ctx)
@@ -146,7 +146,7 @@ func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.R
 	}
 	out.Total, err = m.Count()
 	if err != nil {
-		g.Log(logger).Error(ctx, "service Rule list count error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role list count error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "获取角色数据失败[01]")
 		return
 	}
@@ -154,7 +154,7 @@ func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.R
 	out.PageSize = in.PageSize
 
 	if err = m.Page(in.Page, in.PageSize).Order("sort asc,id asc").Scan(&out.List); err != nil {
-		g.Log(logger).Error(ctx, "service Rule list scan error:", err.Error())
+		g.Log(logger).Error(ctx, "service Role list scan error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "获取角色数据失败[02]")
 		return
 	}
@@ -163,8 +163,8 @@ func (s *sRule) List(ctx context.Context, in *model.RuleListInput) (out *model.R
 }
 
 // GetAll 获取所有角色
-func (s sRule) GetAll(ctx context.Context) (out []*model.RuleItem, err error) {
-	ctx, span := gtrace.NewSpan(ctx, "tracing-service-rule-list")
+func (s sRole) GetAll(ctx context.Context) (out []*model.RoleItem, err error) {
+	ctx, span := gtrace.NewSpan(ctx, "tracing-service-role-list")
 	defer span.End()
 	var logger = gconv.String(ctx.Value("logger"))
 

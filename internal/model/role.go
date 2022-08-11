@@ -11,8 +11,8 @@ import (
 	"github.com/a330202207/psychology-healthy-api/internal/model/entity"
 )
 
-// RuleEditInput .
-type RuleEditInput struct {
+// RoleEditInput .
+type RoleEditInput struct {
 	ID      int64
 	Name    string  // 菜单名称
 	MenuIds []int64 // 菜单ID
@@ -20,26 +20,26 @@ type RuleEditInput struct {
 	Sort    uint    // 排序
 }
 
-// RuleBaseInput .
-type RuleBaseInput struct {
+// RoleBaseInput .
+type RoleBaseInput struct {
 	ID int64
 }
 
-// RuleListInput .
-type RuleListInput struct {
+// RoleListInput .
+type RoleListInput struct {
 	ID     int64
 	Name   string // 角色名称
 	Status uint   // 状态:10-正常，20-关闭，30-待验证
 	PageBaseInfo
 }
 
-// RuleItem .
-type RuleItem struct {
+// RoleItem .
+type RoleItem struct {
 	*entity.SysRole
 }
 
-// RuleListOut .
-type RuleListOut struct {
-	List []*RuleItem
+// RoleListOut .
+type RoleListOut struct {
+	List []*RoleItem
 	PageInfo
 }

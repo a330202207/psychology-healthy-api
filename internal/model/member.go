@@ -14,7 +14,7 @@ import (
 // MemberEditInput .
 type MemberEditInput struct {
 	ID         int64
-	RuleIds    []int64 // 角色ID
+	RoleIds    []int64 // 角色ID
 	UserName   string  // 登陆用户名
 	Passwd     string  // 登陆密码
 	Type       uint    // 账户类型:1-普通管理员，10-超级管理员"

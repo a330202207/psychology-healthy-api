@@ -17,7 +17,7 @@ import (
 type MemberEditReq struct {
 	g.Meta     `path:"/member/edit" method:"post" summary:"添加/编辑管理员" tags:"管理员管理"`
 	ID         int64   `json:"id"`
-	RuleIds    []int64 `json:"ruleIds" v:"required#角色不能为空" dc:"角色ID"`
+	RoleIds    []int64 `json:"roleIds" v:"required#角色不能为空" dc:"角色ID"`
 	UserName   string  `json:"username" v:"required#用户名不能为空" dc:"用户名"`
 	Passwd     string  `json:"passwd" v:"required|length:4,20#密码不能为空|密码长度应当在4到20之间" dc:"密码"`
 	Type       uint    `json:"type" dc:"账户类型:1-普通管理员，10-超级管理员"`
@@ -105,7 +105,7 @@ type MemberGetReq struct {
 type MemberGetRes struct {
 	g.Meta     `mime:"application/json"`
 	ID         int64   `json:"id"`
-	RuleIds    []int64 `json:"ruleIds" dc:"角色ID"`
+	RoleIds    []int64 `json:"roleIds" dc:"角色ID"`
 	UserName   string  `json:"username" dc:"用户名"`
 	Type       uint    `json:"type" dc:"账户类型:1-普通管理员，10-超级管理员"`
 	Status     uint    `json:"status" dc:"状态:10-正常，20-关闭，30-待验证"`

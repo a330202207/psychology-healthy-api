@@ -13,9 +13,9 @@ import (
 	"github.com/a330202207/psychology-healthy-api/internal/model"
 )
 
-// RuleEditReq .
-type RuleEditReq struct {
-	g.Meta  `path:"/rule/edit" method:"post" summary:"添加/编辑角色" tags:"角色管理"`
+// RoleEditReq .
+type RoleEditReq struct {
+	g.Meta  `path:"/role/edit" method:"post" summary:"添加/编辑角色" tags:"角色管理"`
 	ID      int64   `json:"id" dc:"角色ID"`
 	MenuIds []int64 `json:"menuIds" v:"required#菜单不能为空" dc:"菜单ID"`
 	Name    string  `json:"name" v:"required#角色名称不能为空" dc:"角色名称"`
@@ -23,55 +23,55 @@ type RuleEditReq struct {
 	Sort    uint    `json:"sort" dc:"排序"`
 }
 
-// RuleEditRes .
-type RuleEditRes struct {
+// RoleEditRes .
+type RoleEditRes struct {
 	g.Meta `mime:"application/json"`
 }
 
-// RuleDelReq .
-type RuleDelReq struct {
-	g.Meta `path:"/rule/del" method:"post" summary:"删除角色" tags:"角色管理"`
+// RoleDelReq .
+type RoleDelReq struct {
+	g.Meta `path:"/role/del" method:"post" summary:"删除角色" tags:"角色管理"`
 	ID     int64 `json:"id"`
 }
 
-// RuleDelRes .
-type RuleDelRes struct {
+// RoleDelRes .
+type RoleDelRes struct {
 	g.Meta `mime:"application/json"`
 }
 
-// RuleListReq .
-type RuleListReq struct {
-	g.Meta `path:"/rule/list" method:"get" summary:"角色列表" tags:"角色管理"`
+// RoleListReq .
+type RoleListReq struct {
+	g.Meta `path:"/role/list" method:"get" summary:"角色列表" tags:"角色管理"`
 	ID     int64  `json:"id"`
 	Name   string `json:"name" v:"required#角色名称不能为空" dc:"角色名称"`
 	Status uint   `json:"status" v:"required#角色状态不能为空" dc:"角色状态：10-开启，20-关闭"`
 	PageBaseInfo
 }
 
-// RuleListRes .
-type RuleListRes struct {
+// RoleListRes .
+type RoleListRes struct {
 	g.Meta   `mime:"application/json"`
-	Rules    []*model.RuleItem `json:"list"`
+	Roles    []*model.RoleItem `json:"list"`
 	PageInfo *PageInfo         `json:"pageInfo"`
 }
 
-// RuleGetReq .
-type RuleGetReq struct {
-	g.Meta `path:"/rule/get" method:"get" summary:"角色信息" tags:"角色管理"`
+// RoleGetReq .
+type RoleGetReq struct {
+	g.Meta `path:"/role/get" method:"get" summary:"角色信息" tags:"角色管理"`
 	ID     int64 `json:"id"`
 }
 
-// RuleGetRes .
-type RuleGetRes struct {
+// RoleGetRes .
+type RoleGetRes struct {
 }
 
-// RuleGetAllReq .
-type RuleGetAllReq struct {
-	g.Meta `path:"/rule/getAll" method:"get" summary:"获取所有角色" tags:"角色管理"`
+// RoleGetAllReq .
+type RoleGetAllReq struct {
+	g.Meta `path:"/role/getAll" method:"get" summary:"获取所有角色" tags:"角色管理"`
 }
 
-// RuleGetAllRes .
-type RuleGetAllRes struct {
+// RoleGetAllRes .
+type RoleGetAllRes struct {
 	g.Meta `mime:"application/json"`
-	Rules  []*model.RuleItem `json:"list"`
+	Roles  []*model.RoleItem `json:"list"`
 }

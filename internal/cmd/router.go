@@ -14,7 +14,7 @@ func BindRouter(g *ghttp.RouterGroup) {
 			controller.Auth,
 			controller.Member,
 			controller.Menu,
-			controller.Rule,
+			controller.Role,
 			controller.Captcha,
 		)
 	})

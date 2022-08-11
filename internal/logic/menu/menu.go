@@ -112,7 +112,7 @@ func (s *sMenu) Del(ctx context.Context, in *model.MenuBaseInput) (err error) {
 	}
 
 	if _, err = dao.SysRoleMenu.Ctx(ctx).TX(tx).Where("menu_id", in.ID).Delete(); err != nil {
-		g.Log(logger).Error(ctx, "service RuleMenu Del error:", err.Error())
+		g.Log(logger).Error(ctx, "service RoleMenu Del error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[03]")
 		return err
 	}

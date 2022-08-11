@@ -31,22 +31,22 @@ var (
 // Fill with you ideas below.
 
 // UpdateMemberRoleByIds 更新用户角色
-func (d *sysMemberRoleDao) UpdateMemberRoleByIds(ctx context.Context, memberId int64, ruleIds []int64, tx *gdb.TX) (err error) {
+func (d *sysMemberRoleDao) UpdateMemberRoleByIds(ctx context.Context, memberId int64, roleIds []int64, tx *gdb.TX) (err error) {
 	if _, err = d.Ctx(ctx).TX(tx).Where("member_id", memberId).Delete(); err != nil {
 		return
 	}
 
-	var ruleData []map[string]interface{}
+	var roleData []map[string]interface{}
 
-	for _, val := range ruleIds {
+	for _, val := range roleIds {
 		var data = make(map[string]interface{})
 		data["member_id"] = memberId
-		data["rule_id"] = val
+		data["role_id"] = val
 
-		ruleData = append(ruleData, data)
+		roleData = append(roleData, data)
 	}
 
-	if _, err = d.Ctx(ctx).TX(tx).Insert(ruleData); err != nil {
+	if _, err = d.Ctx(ctx).TX(tx).Insert(roleData); err != nil {
 		return
 	}
 

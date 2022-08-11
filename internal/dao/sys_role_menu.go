@@ -31,8 +31,8 @@ var (
 // Fill with you ideas below.
 
 // UpdateRoleMenuByIds 更新角色菜单
-func (d *sysRoleMenuDao) UpdateRoleMenuByIds(ctx context.Context, ruleId int64, menusIds []int64, tx *gdb.TX) (err error) {
-	if _, err = d.Ctx(ctx).TX(tx).Where("role_id", ruleId).Delete(); err != nil {
+func (d *sysRoleMenuDao) UpdateRoleMenuByIds(ctx context.Context, roleId int64, menusIds []int64, tx *gdb.TX) (err error) {
+	if _, err = d.Ctx(ctx).TX(tx).Where("role_id", roleId).Delete(); err != nil {
 		return
 	}
 
@@ -40,7 +40,7 @@ func (d *sysRoleMenuDao) UpdateRoleMenuByIds(ctx context.Context, ruleId int64, 
 
 	for _, val := range menusIds {
 		var data = make(map[string]interface{})
-		data["rule_id"] = ruleId
+		data["role_id"] = roleId
 		data["menu_id"] = val
 
 		menuData = append(menuData, data)

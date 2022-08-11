@@ -94,7 +94,7 @@ func (s *sMember) Edit(ctx context.Context, in *model.MemberEditInput) (err erro
 	}
 
 	// 更新角色
-	if err = dao.SysMemberRole.UpdateMemberRoleByIds(ctx, in.ID, in.RuleIds, tx); err != nil {
+	if err = dao.SysMemberRole.UpdateMemberRoleByIds(ctx, in.ID, in.RoleIds, tx); err != nil {
 		g.Log(logger).Error(ctx, "service Member Edit update UpdateMemberRoleByIds error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[06]")
 		return
@@ -111,7 +111,7 @@ func (s *sMember) UpdatePassWd(ctx context.Context, in *model.MemberUpdatePassWd
 
 	ok, err := dao.SysMember.IsUniqueMember(ctx, in.ID)
 	if err != nil {
-		g.Log(logger).Error(ctx, "service Member UpdatePassWd update rule error:", err.Error())
+		g.Log(logger).Error(ctx, "service Member UpdatePassWd update role error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "操作失败[01]")
 		return err
 	}
