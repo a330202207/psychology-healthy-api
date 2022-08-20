@@ -45,21 +45,35 @@ func (d *sysMenuDao) IsUniqueName(ctx context.Context, name string) (bool, error
 	return false, nil
 }
 
-// GenTreeList 树形菜单
-func (d *sysMenuDao) GenTreeList(ctx context.Context, pid uint64, list []*entity.SysMenu) (treeList []*model.MenuTree) {
-	treeList = make([]*model.MenuTree, 0, len(list))
+// GetList .
+func (d *sysMenuDao) GetList(ctx context.Context) (list []*entity.SysMenu, err error) {
+	err = d.Ctx(ctx).Where("status = ?", 10).
+		Where("is_visible = ?", 20).
+		OrderAsc(d.Columns().Sort).
+		OrderAsc(d.Columns().Id).
+		Scan(&list)
+	return
+}
 
+// GenTreeList 树形菜单
+func (d *sysMenuDao) GenTreeList(pid uint64, list []*entity.SysMenu) ([]*model.MenuTree, error) {
+	tree := make([]*model.MenuTree, 0)
 	for _, v := range list {
 		if v.Pid == pid {
-			t := &model.MenuTree{
-				SysMenu: v,
+			child, err := d.GenTreeList(gconv.Uint64(v.Id), list)
+			if err != nil {
+				return nil, err
 			}
-			child := d.GenTreeList(ctx, gconv.Uint64(v.Id), list)
-			if len(child) > 0 {
-				t.Children = child
+			item := &model.MenuTree{
+				Children: child,
 			}
-			treeList = append(treeList, t)
+
+			if err = gconv.Struct(v, item); err != nil {
+				return nil, err
+			}
+
+			tree = append(tree, item)
 		}
 	}
-	return
+	return tree, nil
 }

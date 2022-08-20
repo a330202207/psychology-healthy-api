@@ -64,14 +64,21 @@ func (c *cMenu) List(ctx context.Context, input *v1.MenuListReq) (res *v1.MenuLi
 			PageSize: input.PageSize,
 		},
 	})
+
 	if err != nil {
 		return
 	}
 
-	res.Menus = out.List
-	res.PageInfo.Page = out.Page
-	res.PageInfo.PageSize = out.PageSize
-	res.PageInfo.Total = out.Total
+	res = &v1.MenuListRes{
+		Menus: out.List,
+		PageInfo: v1.PageInfo{
+			PageBaseInfo: v1.PageBaseInfo{
+				Page:     out.Page,
+				PageSize: out.PageSize,
+			},
+			Total: out.Total,
+		},
+	}
 
 	return
 }
@@ -83,9 +90,13 @@ func (c *cMenu) Get(ctx context.Context, input *v1.MenuGetReq) (res *v1.MenuGetR
 
 // GetAll 获取所有菜单
 func (c *cMenu) GetAll(ctx context.Context, input *v1.MenuGetAllReq) (res *v1.MenuGetAllRes, err error) {
-	res.List, err = service.Menu().GetAll(ctx)
+	out, err := service.Menu().GetAll(ctx)
 	if err != nil {
 		return
 	}
+	res = &v1.MenuGetAllRes{
+		List: out,
+	}
+
 	return
 }

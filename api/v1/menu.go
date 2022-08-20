@@ -63,7 +63,7 @@ type MenuListReq struct {
 type MenuListRes struct {
 	g.Meta   `mime:"application/json"`
 	Menus    []*model.MenuItem `json:"list"`
-	PageInfo *PageInfo         `json:"pageInfo"`
+	PageInfo `json:"pageInfo"`
 }
 
 // MenuGetReq .

@@ -14,8 +14,8 @@ type IMenu interface {
 	Edit(ctx context.Context, in *model.MenuEditInput) (err error)
 	Del(ctx context.Context, in *model.MenuBaseInput) (err error)
 	Get(ctx context.Context, in *model.MenuBaseInput) (res []*model.MenuGetOut, err error)
-	GetAll(ctx context.Context) (res []*model.MenuTree, err error)
-	List(ctx context.Context, in *model.MenuListInput) (out *model.MenuListOut, err error)
+	GetAll(ctx context.Context) ([]*model.MenuTree, error)
+	List(ctx context.Context, in *model.MenuListInput) (*model.MenuListOut, error)
 }
 
 var localMenu IMenu
