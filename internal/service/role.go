@@ -7,13 +7,20 @@ package service
 import (
 	"context"
 
+	"github.com/a330202207/psychology-healthy-api/internal/dao"
 	"github.com/a330202207/psychology-healthy-api/internal/model"
+	"github.com/a330202207/psychology-healthy-api/internal/service"
+	"github.com/gogf/gf/v2/errors/gcode"
+	"github.com/gogf/gf/v2/errors/gerror"
+	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/net/gtrace"
+	"github.com/gogf/gf/v2/util/gconv"
 )
 
 type IRole interface {
 	Edit(ctx context.Context, in *model.RoleEditInput) (err error)
 	Del(ctx context.Context, in *model.RoleBaseInput) (err error)
-	List(ctx context.Context, in *model.RoleListInput) (out *model.RoleListOut, err error)
+	List(ctx context.Context, in *model.RoleListInput) (*model.RoleListOut, error)
 	GetAll(ctx context.Context) (out []*model.RoleItem, err error)
 }
 

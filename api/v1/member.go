@@ -90,9 +90,9 @@ type MemberListReq struct {
 
 // MemberListRes .
 type MemberListRes struct {
-	g.Meta   `mime:"application/json"`
-	List     []*model.MemberListOut `json:"list"`
-	PageInfo *PageInfo              `json:"pageInfo"`
+	g.Meta    `mime:"application/json"`
+	List      []*model.MemberListOut `json:"list"`
+	*PageInfo `json:"pageInfo"`
 }
 
 // MemberGetReq .

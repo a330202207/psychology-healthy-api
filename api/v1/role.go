@@ -50,9 +50,9 @@ type RoleListReq struct {
 
 // RoleListRes .
 type RoleListRes struct {
-	g.Meta   `mime:"application/json"`
-	Roles    []*model.RoleItem `json:"list"`
-	PageInfo *PageInfo         `json:"pageInfo"`
+	g.Meta    `mime:"application/json"`
+	Roles     []*model.RoleItem `json:"list"`
+	*PageInfo `json:"pageInfo"`
 }
 
 // RoleGetReq .

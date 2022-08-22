@@ -57,10 +57,16 @@ func (c *cRole) List(ctx context.Context, input *v1.RoleListReq) (res *v1.RoleLi
 		return
 	}
 
-	res.Roles = out.List
-	res.PageInfo.Page = out.Page
-	res.PageInfo.PageSize = out.PageSize
-	res.PageInfo.Total = out.Total
+	res = &v1.RoleListRes{
+		Roles: out.List,
+		PageInfo: &v1.PageInfo{
+			PageBaseInfo: v1.PageBaseInfo{
+				Page:     out.Page,
+				PageSize: out.PageSize,
+			},
+			Total: out.Total,
+		},
+	}
 
 	return
 }

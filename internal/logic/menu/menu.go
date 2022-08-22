@@ -182,7 +182,6 @@ func (s *sMenu) List(ctx context.Context, in *model.MenuListInput) (*model.MenuL
 	}
 
 	count, err := m.Count()
-
 	if err != nil {
 		g.Log(logger).Error(ctx, "service Menu list count error:", err.Error())
 		err = gerror.NewCode(gcode.New(500, "", nil), "获取菜单数据失败[01]")
